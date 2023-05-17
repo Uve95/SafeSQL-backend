@@ -13,6 +13,7 @@ public class User {
 	private String name;
 	private String surname; 
 	private String password;
+	private long token;
 	
 	
 	public String getEmail() {
@@ -39,6 +40,14 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public long getToken() {
+		return token;
+	}
+
+	public void setToken(long token) {
+		this.token = token;
 	}
 	
 	

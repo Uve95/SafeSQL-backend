@@ -1,1 +1,6 @@
-C:\Users\vicky\Documents\GitHub\SafeSQL\SafeSQL\src\main\java\com\backend\SafeSQL\SafeSqlApplication.java
+C:\Users\vicky\Documents\GitHub\SafeSQL-backend\SafeSQL\src\main\java\com\backend\SafeSQL\model\User.java
+C:\Users\vicky\Documents\GitHub\SafeSQL-backend\SafeSQL\src\main\java\com\backend\SafeSQL\SafeSqlApplication.java
+C:\Users\vicky\Documents\GitHub\SafeSQL-backend\SafeSQL\src\main\java\com\backend\SafeSQL\controller\UserController.java
+C:\Users\vicky\Documents\GitHub\SafeSQL-backend\SafeSQL\src\main\java\com\backend\SafeSQL\dao\UserRepository.java
+C:\Users\vicky\Documents\GitHub\SafeSQL-backend\SafeSQL\src\main\java\com\backend\SafeSQL\service\EmailService.java
+C:\Users\vicky\Documents\GitHub\SafeSQL-backend\SafeSQL\src\main\java\com\backend\SafeSQL\service\UserService.java

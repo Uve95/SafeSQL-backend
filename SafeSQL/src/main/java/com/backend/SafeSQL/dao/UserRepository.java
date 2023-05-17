@@ -8,5 +8,5 @@ import com.backend.SafeSQL.model.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 	
-	Optional<User> findByEmail(String email);
+	User findByEmail(String email);
 }
