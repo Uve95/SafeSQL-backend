@@ -94,15 +94,4 @@ public class UserService {
 	}
 
 
-	public void resetPassword(JSONObject jso) throws Exception {
-		
-		User user = new User();
-		String email = jso.getString("email");
-		
-		if(userDAO.findByEmail(email) == null ) 
-			throw new Exception("No existe el usuario con email "+email);
-			
-		user = userDAO.findByEmail(email);
-		
-	}
 }
