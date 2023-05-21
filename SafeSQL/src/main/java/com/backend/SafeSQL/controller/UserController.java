@@ -78,21 +78,36 @@ public class UserController {
 	@PostMapping("/forgotPassword")
 
 	public void forgotPassword(@RequestBody Map<String, Object> info) throws Exception {
-	//public void forgotPassword() {
+		// public void forgotPassword() {
 
 		try {
 			JSONObject jso = new JSONObject(info);
 
 			mailService.resetPassword(jso);
-			//	mailService.sendEmail("vickydaimiel@gmail.com");
+			// mailService.sendEmail("vickydaimiel@gmail.com");
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
 		}
 
-	
-
 	}
 
+	@PostMapping("/changePassword")
+
+	public void changePassword(@RequestBody String info) throws Exception {
+		// public void forgotPassword() {
+
+		try {
+			//JSONObject jso = new JSONObject(info);
+
+			//mailService.resetPassword(jso);
+			// mailService.sendEmail("vickydaimiel@gmail.com");
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
 }

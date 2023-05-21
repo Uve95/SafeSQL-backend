@@ -94,4 +94,10 @@ public class UserService {
 	}
 
 
+	public void changePassword(JSONObject jso) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

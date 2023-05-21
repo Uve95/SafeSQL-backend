@@ -32,6 +32,7 @@ public class MailService {
 		
 
 		String email = jso.getString("email");
+	
 		
 		if(userDAO.findByEmail(email) == null ) 
 			throw new Exception("No existe el usuario con email "+email);
@@ -39,9 +40,10 @@ public class MailService {
     	SimpleMailMessage message = new SimpleMailMessage();
     	message.setTo(email);
     	
-    	long aleatorio = Math.round(Math.random()*99999999);
+    	//long aleatorio = Math.round(Math.random()*99999999);
     	
-    	message.setText(""+aleatorio);
+    	String ruta = "http://localhost:4200/user/changePassword/"+email;
+    	message.setText(""+ruta);
 
         emailSender.send(message);
         System.out.println("OK");
