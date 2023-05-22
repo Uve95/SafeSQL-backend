@@ -94,9 +94,19 @@ public class UserService {
 	}
 
 
-	public void changePassword(JSONObject jso) {
-		// TODO Auto-generated method stub
+	public void changePassword(JSONObject jso) throws Exception {
 		
+		User user = new User();
+		String email = jso.getString("email");
+		String password = jso.getString("password");
+
+		
+		if(userDAO.findByEmail(email) == null ) 
+			throw new Exception("No existe el usuario con email "+email);
+			
+		user = userDAO.findByEmail(email);
+		user.setPassword(password);
+
 	}
 
 
