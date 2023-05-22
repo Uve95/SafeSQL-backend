@@ -99,9 +99,9 @@ public class UserController {
 		// public void forgotPassword() {
 
 		try {
-			//JSONObject jso = new JSONObject(info);
+			JSONObject jso = new JSONObject(info);
 
-			//mailService.resetPassword(jso);
+			userService.changePassword(jso);
 			// mailService.sendEmail("vickydaimiel@gmail.com");
 
 		} catch (Exception e) {
