@@ -35,9 +35,9 @@ public class UserController {
 	@Autowired
 	private MailService mailService;
 
-	@PostMapping("/userSave")
-	public User saveUser(@RequestBody User user) {
-		return userService.saveUser(user);
+	@PostMapping("/register")
+	public User register(@RequestBody User user) {
+		return userService.register(user);
 
 	}
 

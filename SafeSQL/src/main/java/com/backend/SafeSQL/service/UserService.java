@@ -22,7 +22,7 @@ public class UserService {
 	
 	
 	//Metodo para guardar usuarios
-	public User saveUser(User user) {
+	public User register(User user) {
 		return userDAO.save(user);
 		
 	}
@@ -106,6 +106,7 @@ public class UserService {
 			
 		user = userDAO.findByEmail(email);
 		user.setPassword(password);
+		userDAO.save(user);
 
 	}
 
