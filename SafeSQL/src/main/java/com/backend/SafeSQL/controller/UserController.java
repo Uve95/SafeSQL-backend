@@ -40,14 +40,41 @@ public class UserController {
 		return userService.register(user);
 
 	}
-
+	
 	@PostMapping("/login")
-	public void loginUser(@RequestBody Map<String, Object> info) throws Exception {
+
+	public String login(JSONObject jso) {
+		
+		if(jso.getString("rol") == "user")
+			return "redirect:/user/login-user";
+		
+		if(jso.getString("rol") == "admin")
+			return "redirect:/admin/login-admin";
+		
+		return "redirect:/user/login";
+	}
+
+	@PostMapping("/login-user")
+	public void login(@RequestBody Map<String, Object> info) throws Exception {
 
 		try {
+			
 			JSONObject jso = new JSONObject(info);
+			this.userService.login(jso);
 
-			this.userService.loginUser(jso);
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+	}
+	
+	//@GetMapping("/details/{email}")
+	public void details(@RequestBody Map<String, Object> info) throws Exception {
+
+		try {
+			
+			JSONObject jso = new JSONObject(info);
+			this.userService.details(jso);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -55,7 +82,8 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/userList")
+
+	//@GetMapping("/userList")
 	public List<User> findAll() {
 		return userService.findAll();
 	}

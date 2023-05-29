@@ -13,7 +13,8 @@ public class User {
 	private String name;
 	private String surname; 
 	private String password;
-	private long token = this.createToken();
+	private String token = this.createToken();
+	private String rol;
 	
 	
 	public String getEmail() {
@@ -42,17 +43,25 @@ public class User {
 		this.password = password;
 	}
 
-	public long getToken() {
+	public String getToken() {
 		return token;
 	}
 
-	public void setToken(long token) {
+	public void setToken(String token) {
 		this.token = token;
 	}
 	
-	public long createToken() {
-    	long token = Math.round(Math.random()*99999999);
+	public String createToken() {
+    	String token = Math.round(Math.random()*99999999)+"";
 		return token;
+	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 	
 }
