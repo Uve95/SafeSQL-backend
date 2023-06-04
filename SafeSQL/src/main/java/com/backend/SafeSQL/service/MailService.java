@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.backend.SafeSQL.dao.UserRepository;
+import com.backend.SafeSQL.model.User;
 
 import javax.mail.MessagingException;
 import javax.naming.Context;
@@ -28,21 +29,19 @@ public class MailService {
 
 
 
-	public void resetPassword(JSONObject jso) throws Exception {
-		
-
-		String email = jso.getString("email");
+	public void resetPassword(User user) throws Exception {
+	
 	
 		
-		if(userDAO.findByEmail(email) == null ) 
-			throw new Exception("No existe el usuario con email "+email);
+		if(userDAO.findByEmail(user.getEmail()) == null ) 
+			throw new Exception("No existe el usuario con email "+user.getEmail());
 		
     	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setTo(email);
+    	message.setTo(user.getEmail());
     	
     	//long aleatorio = Math.round(Math.random()*99999999);
     	
-    	String ruta = "http://localhost:4200/user/changePassword/"+email;
+    	String ruta = "http://localhost:4200/user/changePassword/"+user.getEmail();
     	message.setText(""+ruta);
 
         emailSender.send(message);
