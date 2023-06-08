@@ -31,20 +31,20 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-	public User updateUser(User user) throws Exception {
+	public User updateUser(User user, String email) throws Exception {
 
-		if (userRepository.findByEmail(user.getEmail()) == null)
-			throw new Exception("No existe el usuario con email " + user.getEmail());
+		if (userRepository.findByEmail(email) == null)
+			throw new Exception("No existe el usuario con email " + email);
 
-		User userUpdate = userRepository.findByEmail(user.getEmail());
+		User userUpdate = userRepository.findByEmail(email);
 
-		if (userUpdate.getName() != "")
-			userUpdate.setName(user.getEmail());
+		if (user.getName() != "")
+			userUpdate.setName(user.getName());
 
-		if (userUpdate.getSurname() != "")
+		if (user.getSurname() != "")
 			userUpdate.setName(user.getSurname());
 
-		if (userUpdate.getPassword() != "")
+		if (user.getPassword() != "")
 			userUpdate.setPassword(user.getPassword());
 
 		userRepository.save(userUpdate);
