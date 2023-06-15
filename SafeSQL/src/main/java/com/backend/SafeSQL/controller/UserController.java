@@ -60,7 +60,6 @@ public class UserController {
 	}
 	
 
-	@PreAuthorize("hasRole('USER')")
 	@PostMapping("forgotPassword")
 	public void forgotPassword(@RequestBody User user) throws Exception {
 
