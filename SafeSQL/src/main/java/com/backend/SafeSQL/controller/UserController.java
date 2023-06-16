@@ -65,7 +65,7 @@ public class UserController {
 
 		try {
 
-			mailService.resetPassword(user);
+		mailService.sendEmail(user);
 			// mailService.sendEmail("vickydaimiel@gmail.com");
 
 		} catch (Exception e) {
@@ -75,8 +75,7 @@ public class UserController {
 
 	}
 
-	@PreAuthorize("hasRole('USER')")
-	@PostMapping("changePassword")
+	@PostMapping("changePassword/:email")
 	public void changePassword(@RequestBody User user) throws Exception {
 		// public void forgotPassword() {
 

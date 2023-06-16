@@ -54,9 +54,16 @@ public class UserServiceImpl implements UserService {
 		if (userRepository.findByEmail(user.getEmail()) == null)
 			throw new Exception("No existe el usuario con email " + user.getEmail());
 
-		user = userRepository.findByEmail(user.getEmail());
-		user.setPassword(user.getPassword());
-		userRepository.save(user);
+		User userAux = new User();
+		
+		userAux = userRepository.findByEmail(user.getEmail());
+		
+		if (userAux.getToken() != user.getToken())
+			throw new Exception("Error en la autenticación");
+		
+		userAux.setPassword(user.getPassword());
+		userRepository.save(userAux);
+		userAux.setToken(user.getToken());
 
 	}
 	
