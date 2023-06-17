@@ -25,7 +25,7 @@ public class User implements UserDetails{
 	private String name;
 	private String surname; 
 	private String password;
-	private String token = this.createToken();
+	private String token;
 	private boolean enabled = true;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")

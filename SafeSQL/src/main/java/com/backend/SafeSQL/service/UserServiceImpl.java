@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RolRepository rolRepository;
 
+	@Autowired
+	private MailService mailService;
+	
 	@Override
 	public User saveUser(User user, Set<UserRol> userRoles) throws Exception {
 
@@ -35,6 +38,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 			user.getUserRoles().addAll(userRoles);
+			user.setToken(user.createToken());
 			userLocal = userRepository.save(user);
 		}
 
@@ -51,20 +55,32 @@ public class UserServiceImpl implements UserService {
 
 
 
-		if (userRepository.findByEmail(user.getEmail()) == null)
-			throw new Exception("No existe el usuario con email " + user.getEmail());
+		if (userRepository.findByToken(user.getToken()) == null)
+			throw new Exception("No existe el usuario con token " + user.getToken());
 
-		User userAux = new User();
-		
-		userAux = userRepository.findByEmail(user.getEmail());
-		
-		if (userAux.getToken() != user.getToken())
-			throw new Exception("Error en la autenticación");
+		User userAux = userRepository.findByToken(user.getToken());
 		
 		userAux.setPassword(user.getPassword());
+		userAux.setToken(user.createToken());
 		userRepository.save(userAux);
-		userAux.setToken(user.getToken());
 
+	}
+
+	@Override
+	public void forgotPassword(User user) throws Exception {
+		
+		if (userRepository.findByEmail(user.getEmail()) == null)
+			throw new Exception("No existe el usuario con token " + user.getEmail());
+		
+		User userAux = userRepository.findByEmail(user.getEmail());
+		mailService.sendEmail(userAux);
+		
+		
+		
+
+
+
+		
 	}
 	
 	

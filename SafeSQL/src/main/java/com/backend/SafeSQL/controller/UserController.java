@@ -28,45 +28,39 @@ import com.backend.SafeSQL.service.UserService;
 @CrossOrigin(origins = "*")
 
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
 	@Autowired
-	private MailService mailService;
-	
-	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	
+
 	@PostMapping("register")
 	public User register(@RequestBody User user) throws Exception {
-		
+
 		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-		
+
 		Set<UserRol> userRoles = new HashSet<>();
-		
+
 		Rol rol = new Rol();
 		rol.setRolId(2L);
 		rol.setRolName("USER");
-		
+
 		UserRol userRol = new UserRol();
 		userRol.setUser(user);
 		userRol.setRol(rol);
-		
+
 		userRoles.add(userRol);
-		
+
 		return userService.saveUser(user, userRoles);
 	}
-	
 
 	@PostMapping("forgotPassword")
 	public void forgotPassword(@RequestBody User user) throws Exception {
 
 		try {
 
-		mailService.sendEmail(user);
-			// mailService.sendEmail("vickydaimiel@gmail.com");
+			userService.forgotPassword(user);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -75,7 +69,7 @@ public class UserController {
 
 	}
 
-	@PostMapping("changePassword/:email")
+	@PostMapping("changePassword")
 	public void changePassword(@RequestBody User user) throws Exception {
 		// public void forgotPassword() {
 
@@ -92,8 +86,3 @@ public class UserController {
 
 	}
 }
-			 
-
-	
-
-
