@@ -1,5 +1,11 @@
 package com.backend.SafeSQL.controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -85,4 +91,36 @@ public class UserController {
 		}
 
 	}
-}
+	
+	
+	@PostMapping("connectBD")
+	public ArrayList top10(@RequestBody String cadena) throws ClassNotFoundException {
+
+        //String connectionUrl = "jdbc:sqlserver://DESKTOP-4D5JPR3;databaseName=AdventureWorksLT2019;user=Admin;password=Admin;trustServerCertificate=true;";
+        String connectionUrl = cadena;
+
+			ResultSet resultSet = null;
+			ArrayList array = new ArrayList();
+			
+	        try (Connection connection = DriverManager.getConnection(connectionUrl);
+	                Statement statement = connection.createStatement();) {
+
+				// Create and execute a SELECT SQL statement.
+				String selectSql = "SELECT TOP 10 * FROM [SalesLT].[Address]";
+				resultSet = statement.executeQuery(selectSql);
+
+				
+				
+				// Print results from select statement
+				while (resultSet.next()) {
+					array.add(resultSet.getString(2) + " " + resultSet.getString(9));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+
+			}
+	        
+	        return array;
+		}
+	}
+
