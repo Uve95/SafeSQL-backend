@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,6 +35,8 @@ import com.backend.SafeSQL.service.UserService;
 @CrossOrigin(origins = "*")
 
 public class UserController {
+
+	String cadenaAux = "";
 
 	@Autowired
 	private UserService userService;
@@ -91,36 +94,33 @@ public class UserController {
 		}
 
 	}
-	
-	
+
 	@PostMapping("connectBD")
-	public ArrayList top10(@RequestBody String cadena) throws ClassNotFoundException {
+	public void connectBD(@RequestBody String[] info) throws Exception {
 
-        //String connectionUrl = "jdbc:sqlserver://DESKTOP-4D5JPR3;databaseName=AdventureWorksLT2019;user=Admin;password=Admin;trustServerCertificate=true;";
-        String connectionUrl = cadena;
+		try {
 
-			ResultSet resultSet = null;
-			ArrayList array = new ArrayList();
-			
-	        try (Connection connection = DriverManager.getConnection(connectionUrl);
-	                Statement statement = connection.createStatement();) {
+			userService.connectBD(info);
 
-				// Create and execute a SELECT SQL statement.
-				String selectSql = "SELECT TOP 10 * FROM [SalesLT].[Address]";
-				resultSet = statement.executeQuery(selectSql);
-
-				
-				
-				// Print results from select statement
-				while (resultSet.next()) {
-					array.add(resultSet.getString(2) + " " + resultSet.getString(9));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-
-			}
-	        
-	        return array;
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
 		}
 	}
 
+	@PostMapping("checklist")
+	public ArrayList checklist(@RequestBody  String[] info) throws Exception {
+		
+		try {
+			
+			userService.checklist(info);
+	
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+	
+		return null; 
+	}
+}

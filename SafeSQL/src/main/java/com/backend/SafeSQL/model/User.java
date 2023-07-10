@@ -3,6 +3,7 @@ package com.backend.SafeSQL.model;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.lang.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,7 @@ public class User implements UserDetails{
 	private String password;
 	private String token;
 	private boolean enabled = true;
+	private String information;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     @JsonIgnore
@@ -35,13 +37,14 @@ public class User implements UserDetails{
 	
 	public User() {}
 
-	public User(String email, String name, String surname, String password, String token, boolean enable) {
+	public User(String email, String name, String surname, String password, String token, boolean enable, String information) {
 		this.email = email;
 		this.name = name;
 		this.surname = surname;
 		this.password = password;
 		this.token = token;
 		this.enabled = enable;
+		this.information = information;
 	}
 	
 
@@ -99,6 +102,15 @@ public class User implements UserDetails{
 	public void setEnabled(boolean enable) {
 		this.enabled = enabled;
 	}
+	
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
+	}
 
 	public Set<UserRol> getUserRoles() {
 		return userRoles;
@@ -107,10 +119,12 @@ public class User implements UserDetails{
 	public void setUserRoles(Set<UserRol> userRoles) {
 		this.userRoles = userRoles;
 	}
+	
 
 	public String getUsername() {
 		return email;
 	}
+
 
 	@Override
 	public boolean isAccountNonExpired() {
@@ -127,6 +141,8 @@ public class User implements UserDetails{
 		return true;
 	}
 
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
