@@ -109,18 +109,20 @@ public class UserController {
 	}
 
 	@PostMapping("checklist")
-	public ArrayList checklist(@RequestBody  String[] info) throws Exception {
-		
+	public ArrayList checklist(@RequestBody String[] info) throws Exception {
+
 		try {
-			
-			userService.checklist(info);
-	
+
+			ArrayList array = new ArrayList();
+
+			array = userService.checklist(info);
+
+			return array;
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
 		}
-	
-		return null; 
+
 	}
 }
