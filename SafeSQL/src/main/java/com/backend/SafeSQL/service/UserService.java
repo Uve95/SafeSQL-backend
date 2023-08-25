@@ -22,6 +22,8 @@ public interface UserService {
 	public void connectBD(String [] info) throws Exception;
 	
 	public ArrayList checklist(String [] info) throws Exception;
+	
+
 
 
 }

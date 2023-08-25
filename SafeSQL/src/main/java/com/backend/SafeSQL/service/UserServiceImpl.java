@@ -109,7 +109,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@Override
 	public ArrayList checklist(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
@@ -126,21 +125,26 @@ public class UserServiceImpl implements UserService {
 		try (Connection connection = DriverManager.getConnection(cadena);
 				Statement statement = connection.createStatement();) {
 
+
+			
+			array.add(0, bd[1]);
+			
+
 			if (listchecks[0].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check1 = "USE " + bd[1]
-						+ "; SELECT CASE SERVERPROPERTY('IsIntegratedSecurityOnly') WHEN 1 THEN '1' WHEN 0 THEN '0' end as [Authentication Mode]";
+						+ "; SELECT CASE SERVERPROPERTY('IsIntegratedSecurityOnly') WHEN 1 THEN '0' WHEN 0 THEN '1' end as [Authentication Mode]";
 
 				resultSet = statement.executeQuery(check1);
 
 				// Print results from select statement
 				while (resultSet.next()) {
-					array.add(0, resultSet.getString(1));
+					array.add(1, resultSet.getString(1));
 				}
 
 				resultSet = null;
 			} else {
-				array.add(0, -1);
+				array.add(1, -1);
 
 			}
 
@@ -153,22 +157,6 @@ public class UserServiceImpl implements UserService {
 
 				// Print results from select statement
 				while (resultSet.next()) {
-					array.add(1, resultSet.getString(1));
-				}
-				resultSet = null;
-
-			} else {
-				array.add(1, -1);
-
-			}
-			if (listchecks[2].equalsIgnoreCase("true")) {
-				// Create and execute a SELECT SQL statement.
-				String check3 = "USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN 0 THEN '0' ELSE  '1' END FROM sysusers a, sysprotects b, master.dbo.syslogins c WHERE a.sid=c.sid AND sysadmin=0 AND a.uid=b.uid AND id=object_id(N'[dbo].[xp_cmdshell]') OR id=object_id(N'[dbo].[sp_sdidebug]') OR id=object_id(N'[dbo].[xp_availablemedia]') OR id=object_id(N'[dbo].[xp_deletemail]') OR id=object_id(N'[dbo].[xp_dirtree]') OR id=object_id(N'[dbo].[xp_dropwebtask]') OR id=object_id(N'[dbo].[xp_dsninfo]') OR id=object_id(N'[dbo].[xp_enumdsn]') OR id=object_id(N'[dbo].[xp_enumerrorlogs]') OR id=object_id(N'[dbo].[xp_enumqueuedtasks]') OR id=object_id(N'[dbo].[xp_eventlog]') OR id=object_id(N'[dbo].[xp_findnextmsg]') OR id=object_id(N'[dbo].[xp_fixeddrives]') OR id=object_id(N'[dbo].[xp_getfiledetails]') OR id=object_id(N'[dbo].[xp_getnetname]') OR id=object_id(N'[dbo].[xp_grantlogin]') OR id=object_id(N'[dbo].[xp_logevent]') OR id=object_id(N'[dbo].[xp_loginconfig]') OR id=object_id(N'[dbo].[xp_logininfo]') OR id=object_id(N'[dbo].[xp_makewebtask]') OR id=object_id(N'[dbo].[xp_msver]') OR id=object_id(N'[dbo].[xp_regread]') OR id=object_id(N'[dbo].[xp_perfend]') OR id=object_id(N'[dbo].[xp_perfmonitor]') OR id=object_id(N'[dbo].[xp_perfsample]') OR id=object_id(N'[dbo].[xp_perfstart]') OR id=object_id(N'[dbo].[xp_readerrorlog]') OR id=object_id(N'[dbo].[xp_readmail]') OR id=object_id(N'[dbo].[xp_revokelogin]') OR id=object_id(N'[dbo].[xp_runwebtask]') OR id=object_id(N'[dbo].[xp_schedulersignal]') OR id=object_id(N'[dbo].[xp_sendmail]') OR id=object_id(N'[dbo].[xp_servicecontrol]') OR id=object_id(N'[dbo].[xp_snmp_getstate]') OR id=object_id(N'[dbo].[xp_snmp_raisetrap]') OR id=object_id(N'[dbo].[xp_sprintf]') OR id=object_id(N'[dbo].[xp_sqlinventory]') OR id=object_id(N'[dbo].[xp_sqlregister]') OR id=object_id(N'[dbo].[xp_sqltrace]') OR id=object_id(N'[dbo].[xp_sscanf]') OR id=object_id(N'[dbo].[xp_startmail]') OR id=object_id(N'[dbo].[xp_stopmail]') OR id=object_id(N'[dbo].[xp_subdirs]') OR id=object_id(N'[dbo].[xp_unc_to_drive]') OR id=object_id(N'[dbo].[xp_dirtree]')";
-				resultSet = statement.executeQuery(check3);
-
-				// Print results from select statement
-				while (resultSet.next()) {
 					array.add(2, resultSet.getString(1));
 				}
 				resultSet = null;
@@ -177,13 +165,11 @@ public class UserServiceImpl implements UserService {
 				array.add(2, -1);
 
 			}
-
-			if (listchecks[3].equalsIgnoreCase("true")) {
+			if (listchecks[2].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check4 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) > 1 THEN '1' WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) = 1 AND (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) = 'TRUE' THEN '0' END";
-
-				resultSet = statement.executeQuery(check4);
+				String check3 = "USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN 0 THEN '0' ELSE  '1' END FROM sysusers a, sysprotects b, master.dbo.syslogins c WHERE a.sid=c.sid AND sysadmin=0 AND a.uid=b.uid AND id=object_id(N'[dbo].[xp_cmdshell]') OR id=object_id(N'[dbo].[sp_sdidebug]') OR id=object_id(N'[dbo].[xp_availablemedia]') OR id=object_id(N'[dbo].[xp_deletemail]') OR id=object_id(N'[dbo].[xp_dirtree]') OR id=object_id(N'[dbo].[xp_dropwebtask]') OR id=object_id(N'[dbo].[xp_dsninfo]') OR id=object_id(N'[dbo].[xp_enumdsn]') OR id=object_id(N'[dbo].[xp_enumerrorlogs]') OR id=object_id(N'[dbo].[xp_enumqueuedtasks]') OR id=object_id(N'[dbo].[xp_eventlog]') OR id=object_id(N'[dbo].[xp_findnextmsg]') OR id=object_id(N'[dbo].[xp_fixeddrives]') OR id=object_id(N'[dbo].[xp_getfiledetails]') OR id=object_id(N'[dbo].[xp_getnetname]') OR id=object_id(N'[dbo].[xp_grantlogin]') OR id=object_id(N'[dbo].[xp_logevent]') OR id=object_id(N'[dbo].[xp_loginconfig]') OR id=object_id(N'[dbo].[xp_logininfo]') OR id=object_id(N'[dbo].[xp_makewebtask]') OR id=object_id(N'[dbo].[xp_msver]') OR id=object_id(N'[dbo].[xp_regread]') OR id=object_id(N'[dbo].[xp_perfend]') OR id=object_id(N'[dbo].[xp_perfmonitor]') OR id=object_id(N'[dbo].[xp_perfsample]') OR id=object_id(N'[dbo].[xp_perfstart]') OR id=object_id(N'[dbo].[xp_readerrorlog]') OR id=object_id(N'[dbo].[xp_readmail]') OR id=object_id(N'[dbo].[xp_revokelogin]') OR id=object_id(N'[dbo].[xp_runwebtask]') OR id=object_id(N'[dbo].[xp_schedulersignal]') OR id=object_id(N'[dbo].[xp_sendmail]') OR id=object_id(N'[dbo].[xp_servicecontrol]') OR id=object_id(N'[dbo].[xp_snmp_getstate]') OR id=object_id(N'[dbo].[xp_snmp_raisetrap]') OR id=object_id(N'[dbo].[xp_sprintf]') OR id=object_id(N'[dbo].[xp_sqlinventory]') OR id=object_id(N'[dbo].[xp_sqlregister]') OR id=object_id(N'[dbo].[xp_sqltrace]') OR id=object_id(N'[dbo].[xp_sscanf]') OR id=object_id(N'[dbo].[xp_startmail]') OR id=object_id(N'[dbo].[xp_stopmail]') OR id=object_id(N'[dbo].[xp_subdirs]') OR id=object_id(N'[dbo].[xp_unc_to_drive]') OR id=object_id(N'[dbo].[xp_dirtree]')";
+				resultSet = statement.executeQuery(check3);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -196,11 +182,12 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[4].equalsIgnoreCase("true")) {
+			if (listchecks[3].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check5 = "USE master; GRANT VIEW SERVER STATE TO " + user[1] + "; USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END FROM fn_my_permissions('guest', 'USER');";
-				resultSet = statement.executeQuery(check5);
+				String check4 = "USE " + bd[1]
+						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) > 1 THEN '1' WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) = 1 AND (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) = 'TRUE' THEN '0' END";
+
+				resultSet = statement.executeQuery(check4);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -213,12 +200,11 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[5].equalsIgnoreCase("true")) {
+			if (listchecks[4].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check6 = "USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END FROM sysusers a, syspermissions b WHERE a.uid=b.grantee AND a.name='public'";
-
-				resultSet = statement.executeQuery(check6);
+				String check5 = "USE master; GRANT VIEW SERVER STATE TO " + user[1] + "; USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END FROM fn_my_permissions('guest', 'USER');";
+				resultSet = statement.executeQuery(check5);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -231,12 +217,12 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[6].equalsIgnoreCase("true")) {
+			if (listchecks[5].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check7 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) < 30 THEN '0' WHEN (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) >=30 AND (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) <40 THEN '1' ELSE '2' END";
+				String check6 = "USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END FROM sysusers a, syspermissions b WHERE a.uid=b.grantee AND a.name='public'";
 
-				resultSet = statement.executeQuery(check7);
+				resultSet = statement.executeQuery(check6);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -249,12 +235,12 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[7].equalsIgnoreCase("true")) {
+			if (listchecks[6].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check8 = "USE " + bd[1]
-						+ "; SELECT CASE count(inicios_sesion.dias_sin_modificar) WHEN '0' THEN '0' ELSE  '1' END FROM (SELECT name, datediff(dd,updatedate,getdate()) AS dias_sin_modificar FROM syslogins) AS inicios_sesion";
+				String check7 = "USE " + bd[1]
+						+ "; SELECT CASE WHEN (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) < 30 THEN '0' WHEN (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) >=30 AND (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) <40 THEN '1' ELSE '2' END";
 
-				resultSet = statement.executeQuery(check8);
+				resultSet = statement.executeQuery(check7);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -267,12 +253,12 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[8].equalsIgnoreCase("true")) {
+			if (listchecks[7].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check9 = "USE " + bd[1]
-						+ "; SELECT CASE count(datos.name) WHEN '0' THEN '0' ELSE  '1' END FROM (SELECT [name], RemediationCmd = N'ALTER LOGIN ' + QUOTENAME([name]) + ' WITH CHECK_POLICY = ON;' FROM sys.sql_logins AS s WHERE s.is_policy_checked = 0 AND s.is_disabled = 0 AND s.[name] NOT LIKE N'##MS[_]%##') AS datos";
+				String check8 = "USE " + bd[1]
+						+ "; SELECT CASE count(inicios_sesion.dias_sin_modificar) WHEN '0' THEN '0' ELSE  '1' END FROM (SELECT name, datediff(dd,updatedate,getdate()) AS dias_sin_modificar FROM syslogins) AS inicios_sesion";
 
-				resultSet = statement.executeQuery(check9);
+				resultSet = statement.executeQuery(check8);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -285,11 +271,12 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[9].equalsIgnoreCase("true")) {
+			if (listchecks[8].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check10 = "USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END AS inicios_de_sesion FROM syslogins";
-				resultSet = statement.executeQuery(check10);
+				String check9 = "USE " + bd[1]
+						+ "; SELECT CASE count(datos.name) WHEN '0' THEN '0' ELSE  '1' END FROM (SELECT [name], RemediationCmd = N'ALTER LOGIN ' + QUOTENAME([name]) + ' WITH CHECK_POLICY = ON;' FROM sys.sql_logins AS s WHERE s.is_policy_checked = 0 AND s.is_disabled = 0 AND s.[name] NOT LIKE N'##MS[_]%##') AS datos";
+
+				resultSet = statement.executeQuery(check9);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -302,6 +289,23 @@ public class UserServiceImpl implements UserService {
 
 			}
 
+			if (listchecks[9].equalsIgnoreCase("true")) {
+				// Create and execute a SELECT SQL statement.
+				String check10 = "USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END AS inicios_de_sesion FROM syslogins";
+				resultSet = statement.executeQuery(check10);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array.add(10, resultSet.getString(1));
+				}
+				resultSet = null;
+
+			} else {
+				array.add(10, -1);
+
+			}
+
 			if (listchecks[10].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check11 = "USE " + bd[1]
@@ -311,7 +315,7 @@ public class UserServiceImpl implements UserService {
 
 				// Print results from select statement
 				while (resultSet.next()) {
-					array.add(10, resultSet.getString(1));
+					array.add(11, resultSet.getString(1));
 				}
 
 				String deleteTables = "USE " + bd[1] + ";DROP TABLE inicios_fallidos; DROP TABLE inicios_buenos";
@@ -319,7 +323,7 @@ public class UserServiceImpl implements UserService {
 				resultSet = null;
 
 			} else {
-				array.add(10, -1);
+				array.add(11, -1);
 
 			}
 
@@ -331,29 +335,9 @@ public class UserServiceImpl implements UserService {
 
 				// Print results from select statement
 				while (resultSet.next()) {
-					array.add(11, resultSet.getString(1));
-				}
-
-				resultSet = null;
-
-			} else {
-				array.add(11, -1);
-
-			}
-
-			if (listchecks[12].equalsIgnoreCase("true")) {
-				// Create and execute a SELECT SQL statement.
-				String check13 = "USE " + bd[1]+"; CREATE TABLE diccionario(nombre nvarchar(50)); insert into diccionario values ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >= 0 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 30 THEN '0' WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >=30 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 60 THEN '1' ELSE '2' END";
-
-				resultSet = statement.executeQuery(check13);
-
-				// Print results from select statement
-				while (resultSet.next()) {
 					array.add(12, resultSet.getString(1));
 				}
 
-				String deleteTables = "USE " + bd[1] + "; DROP TABLE diccionario";
-				statement.execute(deleteTables);
 				resultSet = null;
 
 			} else {
@@ -361,12 +345,12 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			if (listchecks[13].equalsIgnoreCase("true")) {
+			if (listchecks[12].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check14 = "USE " + bd[1]
-						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); insert into diccionario values ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE round(cast(resultado_cifradas.resultado*100 as float),2) WHEN '0' THEN '0' ELSE '1' END from ( SELECT ( SELECT( SELECT( (SELECT  cast(count(*) as float) as contar_encriptados from diccionario d join (SELECT name from sys.columns where [encryption_type] IS NOT NULL) as columnas_encriptadas on columnas_encriptadas.name like d.nombre)) as columnas_encriptadas) / (SELECT  cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas on nombre_columnas.column_name like d.nombre) as columnas_sensibles) resultado) as resultado_cifradas";
+				String check13 = "USE " + bd[1]
+						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); insert into diccionario values ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >= 0 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 30 THEN '0' WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >=30 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 60 THEN '1' ELSE '2' END";
 
-				resultSet = statement.executeQuery(check14);
+				resultSet = statement.executeQuery(check13);
 
 				// Print results from select statement
 				while (resultSet.next()) {
@@ -382,6 +366,27 @@ public class UserServiceImpl implements UserService {
 
 			}
 
+			if (listchecks[13].equalsIgnoreCase("true")) {
+				// Create and execute a SELECT SQL statement.
+				String check14 = "USE " + bd[1]
+						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); insert into diccionario values ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE round(cast(resultado_cifradas.resultado*100 as float),2) WHEN '0' THEN '0' ELSE '1' END from ( SELECT ( SELECT( SELECT( (SELECT  cast(count(*) as float) as contar_encriptados from diccionario d join (SELECT name from sys.columns where [encryption_type] IS NOT NULL) as columnas_encriptadas on columnas_encriptadas.name like d.nombre)) as columnas_encriptadas) / (SELECT  cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas on nombre_columnas.column_name like d.nombre) as columnas_sensibles) resultado) as resultado_cifradas";
+
+				resultSet = statement.executeQuery(check14);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array.add(14, resultSet.getString(1));
+				}
+
+				String deleteTables = "USE " + bd[1] + "; DROP TABLE diccionario";
+				statement.execute(deleteTables);
+				resultSet = null;
+
+			} else {
+				array.add(14, -1);
+
+			}
+
 			if (listchecks[14].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check15 = "USE " + bd[1]
@@ -391,12 +396,12 @@ public class UserServiceImpl implements UserService {
 
 				// Print results from select statement
 				while (resultSet.next()) {
-					array.add(14, resultSet.getString(1));
+					array.add(15, resultSet.getString(1));
 				}
 				resultSet = null;
 
 			} else {
-				array.add(14, -1);
+				array.add(15, -1);
 
 			}
 
@@ -404,7 +409,10 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 
 		}
+		
 
 		return array;
 	}
+
+
 }
