@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.backend.SafeSQL.model.Rol;
 import com.backend.SafeSQL.model.User;
 import com.backend.SafeSQL.model.UserRol;
 import com.backend.SafeSQL.service.UserService;
+
+import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 public class SafeSqlApplication {
@@ -26,21 +30,23 @@ public class SafeSqlApplication {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public static void main(String[] args) {
+		
 		SpringApplication.run(SafeSqlApplication.class, args);
 	}
 
-/*
-	@Override
-	public void run(String... args) throws Exception {
-		
-		
+
+	@Component
+	public class CommandLineRunnerImpl implements CommandLineRunner {
+
+	    @Override
+		public void run(String... args) throws Exception {
+			
+			
 			User usuario = new User();
-			
-			
 
 			usuario.setName("Maria Victoria");
 			usuario.setSurname("Alcázar Clemente");
-			usuario.setEmail("admin@gmail.com");
+			usuario.setEmail("vickydaimiel@hotmail.com");
 			usuario.setToken(usuario.createToken());
 			usuario.setPassword(bCryptPasswordEncoder.encode("admin"));
 
@@ -57,8 +63,12 @@ public class SafeSqlApplication {
 			User usuarioGuardado = usuarioService.saveUser(usuario,userRoles);
 			System.out.println(usuarioGuardado.getUsername());
 	
-	}
 	
-*/
+	    }
+	}
+
+
+	
+
 	
 }
