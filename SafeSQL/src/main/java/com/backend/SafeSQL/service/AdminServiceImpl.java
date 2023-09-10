@@ -42,10 +42,7 @@ public class AdminServiceImpl implements AdminService {
 			userUpdate.setName(user.getName());
 
 		if (user.getSurname() != "")
-			userUpdate.setName(user.getSurname());
-
-		if (user.getPassword() != "")
-			userUpdate.setPassword(user.getPassword());
+			userUpdate.setSurname(user.getSurname());
 
 		userRepository.save(userUpdate);
 		return userUpdate;

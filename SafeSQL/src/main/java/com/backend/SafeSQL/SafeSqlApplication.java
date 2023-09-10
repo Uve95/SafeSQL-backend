@@ -35,6 +35,7 @@ public class SafeSqlApplication {
 	}
 
 
+	/*
 	@Component
 	public class CommandLineRunnerImpl implements CommandLineRunner {
 
@@ -67,7 +68,7 @@ public class SafeSqlApplication {
 	    }
 	}
 
-
+*/
 	
 
 	

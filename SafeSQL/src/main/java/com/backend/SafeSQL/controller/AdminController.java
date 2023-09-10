@@ -41,7 +41,7 @@ public class AdminController {
 		return lista;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
 	@GetMapping("details/{email}")
 	public ResponseEntity<?> details(@PathVariable("email") String email) throws Exception {
 
@@ -55,7 +55,7 @@ public class AdminController {
 	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("email") String email)
 			throws Exception {
 
-		if(user.getPassword() != null)
+		if(user.getPassword() != "")
 			user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 
 		adminService.updateUser(user, email);

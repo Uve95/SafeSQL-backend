@@ -12,6 +12,7 @@ import java.util.Set;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,6 +64,21 @@ public class UserController {
 		userRoles.add(userRol);
 
 		return userService.saveUser(user, userRoles);
+	}
+	
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("update/{email}")
+	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("email") String email)
+			throws Exception {
+
+		if(user.getPassword() != "")
+			user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+
+		userService.updateUser(user, email);
+
+		return new ResponseEntity<User>(HttpStatus.OK);
+
 	}
 
 	@PostMapping("forgotPassword")

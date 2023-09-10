@@ -30,6 +30,26 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private MailService mailService;
 
+
+	public User updateUser(User user, String email) throws Exception {
+
+		if (userRepository.findByEmail(email) == null)
+			throw new Exception("No existe el usuario con email " + email);
+
+		User userUpdate = userRepository.findByEmail(email);
+
+		if (user.getName() != "")
+			userUpdate.setName(user.getName());
+
+		if (user.getSurname() != "")
+			userUpdate.setSurname(user.getSurname());
+
+
+		userRepository.save(userUpdate);
+		return userUpdate;
+
+	}
+
 	@Override
 	public User saveUser(User user, Set<UserRol> userRoles) throws Exception {
 
