@@ -431,6 +431,9 @@ public class UserServiceImpl implements UserService {
 		}
 		
 
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
 		return array;
 	}
 
