@@ -126,11 +126,11 @@ public class UserController {
 	}
 
 	@PostMapping("checklist")
-	public ArrayList checklist(@RequestBody String[] info) throws Exception {
+	public String[] checklist(@RequestBody String[] info) throws Exception {
 
 		try {
 
-			ArrayList array = new ArrayList();
+			String [] array = new String[71];
 
 			array = userService.checklist(info);
 
