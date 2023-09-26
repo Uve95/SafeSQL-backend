@@ -51,7 +51,7 @@ public class MailService {
 	     		+ "                                    <table style=\"background-position: left top;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\r\n"
 	     		+ "                                        <tbody>\r\n"
 	     		+ "                                            <tr>\r\n"
-	     		+ "                                                <td class=\"esd-block-image es-p5t es-p5b\" align=\"center\" style=\"font-size: 0px;\"><a target=\"_blank\"><img src=\"https://demo.stripocdn.email/content/guids/f730e049-cc10-42d4-8326-1208b6d0ecae/images/safesql.jpg\" alt style=\"display: block;\" width=\"175\"></a></td>\r\n"
+	     		+ "                                                <td class=\"esd-block-image es-p5t es-p5b\" align=\"center\" style=\"font-size: 0px;\"><a target=\"_blank\"><img src=\"https://demo.stripocdn.email/content/guids/e6d44644-6cb7-4025-98ae-4cf33a8fb43f/images/logowebjpg.jpg\"\" alt style=\"display: block;\" width=\"175\"></a></td>\r\n"
 	     		+ "                                            </tr>\r\n"
 	     		+ "                                            <tr>\r\n"
 	     		+ "                                                <td class=\"esd-block-text es-p15t es-p15b\" align=\"center\">\r\n"

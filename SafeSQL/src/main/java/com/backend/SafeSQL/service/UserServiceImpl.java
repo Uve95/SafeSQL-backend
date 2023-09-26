@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private MailService mailService;
 
-	public User updateUser(User user, String email) throws Exception {
+	public User updateUser(User user, String token) throws Exception {
 
-		if (userRepository.findByEmail(email) == null)
-			throw new Exception("No existe el usuario con email " + email);
+		if (userRepository.findByToken(token) == null)
+			throw new Exception("No existe el usuario con token " + token);
 
-		User userUpdate = userRepository.findByEmail(email);
+		User userUpdate = userRepository.findByToken(token);
 
 		if (user.getName() != "")
 			userUpdate.setName(user.getName());

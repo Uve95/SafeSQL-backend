@@ -42,17 +42,17 @@ public class AdminController {
 	}
 
 	@PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
-	@GetMapping("details/{email}")
-	public ResponseEntity<?> details(@PathVariable("email") String email) throws Exception {
+	@GetMapping("details/{token}")
+	public ResponseEntity<?> details(@PathVariable("token") String token) throws Exception {
 
-		User user = adminService.details(email);
+		User user = adminService.details(token);
 
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("update/{email}")
-	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("email") String email)
+	@PutMapping("update/{token}")
+	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("token") String email)
 			throws Exception {
 
 		if(user.getPassword() != "")
