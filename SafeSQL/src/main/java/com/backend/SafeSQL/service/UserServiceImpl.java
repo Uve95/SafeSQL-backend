@@ -127,10 +127,20 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public String[] checklist(String[] info) throws Exception {
+	public String BDName(String info) throws Exception {
+
+		User userAux = userRepository.findByEmail(info);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		
+		return  bd[1];
+	}
+
+	public String[] checklistConfig(String [] info) throws Exception {
 
 		ResultSet resultSet = null;
-		String [] array = new String [71];
+		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -139,7 +149,7 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = cadena.split(";");
 		String[] bd = cadenaInfo[1].split("=");
 		String[] user = cadenaInfo[2].split("=");
-
+		
 		try (Connection connection = DriverManager.getConnection(cadena);
 				Statement statement = connection.createStatement();) {
 
@@ -166,7 +176,6 @@ public class UserServiceImpl implements UserService {
 				resultSet = null;
 			} else {
 				array[1] = "-1";
-
 
 			}
 
@@ -249,7 +258,35 @@ public class UserServiceImpl implements UserService {
 				array[5] = "-1";
 
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+
+	public String[] checklistNetwork(String [] info) throws Exception {
+		
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
 
 			// --Red---------------------------- array/check(11 al 20); listcheck(10 al 19);
 			// ----¿Existe un cifrado para las conexiones entrantes?
@@ -271,7 +308,38 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			// --Permisos---------------------------- array/check(21 al 30); listcheck(20 al 29);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+	public String[] checklistPermission(String[] info) throws Exception {
+	
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+		
+		
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
+
+			// --Permisos---------------------------- array/check(21 al 30); listcheck(20 al
+			// 29);
 
 			// ----¿Existen permisos asociados al usuario guest?
 
@@ -310,9 +378,39 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			
-			
-			// --Políticas de contraseña---------------------------- array/check(31 al 40);listcheck(30 al 39);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+	public String[] checklistPassword(String[] info) throws Exception {
+
+
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+		
+		
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
+
+			// --Políticas de contraseña---------------------------- array/check(31 al
+			// 40);listcheck(30 al 39);
 
 			// --¿Existen contraseñas inseguras distintas del “sa”?
 
@@ -352,7 +450,37 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			// --Revision de inicios de sesión---------------------------- array/check(41 al 50); listcheck(40 al 49);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+	public String[] checklistSession(String[] info) throws Exception {
+
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
+
+			// --Revision de inicios de sesión---------------------------- array/check(41 al
+			// 50); listcheck(40 al 49);
 
 			// --¿Existen inicios de sesión de SQL habilitados sin una política de
 			// contraseña segura habilitada?
@@ -412,7 +540,37 @@ public class UserServiceImpl implements UserService {
 				array[42] = "-1";
 			}
 
-			// --Mantenimiento---------------------------- array/check(51 al 60);listcheck(50 al 59);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+	public String[] checklistMaintenance(String[] info) throws Exception {
+
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+		
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
+
+			// --Mantenimiento---------------------------- array/check(51 al
+			// 60);listcheck(50 al 59);
 
 			// ----¿Existe un plan de mantenimiento?
 
@@ -434,7 +592,37 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			// --Datos sensibles---------------------------- array/check(61 al 70);listcheck(60 al 69);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+	public String[] checklistData(String[] info) throws Exception {
+
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+		
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
+
+			// --Datos sensibles---------------------------- array/check(61 al
+			// 70);listcheck(60 al 69);
 
 			// --¿Existe datos sensibles?
 
@@ -480,10 +668,37 @@ public class UserServiceImpl implements UserService {
 
 			}
 
-			
-			
-			
-			// --Roles---------------------------- array/check(71 al 80); listcheck(70 al 79);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+
+		return array;
+	}
+
+	public String[] checklistRol(String[] info) throws Exception {
+
+		ResultSet resultSet = null;
+		String[] array = new String[71];
+
+		String[] listchecks = info[0].split(",");
+
+		User userAux = userRepository.findByEmail(info[1]);
+		String cadena = userAux.getInformation();
+		String[] cadenaInfo = cadena.split(";");
+		String[] bd = cadenaInfo[1].split("=");
+		String[] user = cadenaInfo[2].split("=");
+		
+		try (Connection connection = DriverManager.getConnection(cadena);
+				Statement statement = connection.createStatement();) {
+
+			array[0] = bd[1];
+
+			// --Roles---------------------------- array/check(71 al 80); listcheck(70 al
+			// 79);
 
 			// --¿Existe miembros con rol sysadmin ?
 
@@ -515,5 +730,7 @@ public class UserServiceImpl implements UserService {
 
 		return array;
 	}
+
+
 
 }

@@ -112,6 +112,7 @@ public class UserController {
 
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("connectBD")
 	public void connectBD(@RequestBody String[] info) throws Exception {
 
@@ -125,14 +126,165 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("checklist")
-	public String[] checklist(@RequestBody String[] info) throws Exception {
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("BDName")
+	public String BDName(@RequestBody String info) throws Exception {
+
+		try {
+
+			String BDName = userService.BDName(info);
+
+			return BDName;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistConfiguration")
+	public String[] checklistConfiguration(@RequestBody String[] info) throws Exception {
 
 		try {
 
 			String [] array = new String[71];
 
-			array = userService.checklist(info);
+			array = userService.checklistConfig(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistNetwork")
+	public String[] checklistNetwork(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistNetwork(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistPermission")
+	public String[] checklistPermission(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistPermission(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistPassword")
+	public String[] checklistPassword(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistPassword(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistSession")
+	public String[] checklistSession(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistSession(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistMaintenance")
+	public String[] checklistMaintenance(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistMaintenance(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistData")
+	public String[] checklistData(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistData(info);
+
+			return array;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("checklistRol")
+	public String[] checklistRol(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			String [] array = new String[71];
+
+			array = userService.checklistRol(info);
 
 			return array;
 

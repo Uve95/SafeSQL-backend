@@ -21,9 +21,26 @@ public interface UserService {
 
 	public void connectBD(String[] info) throws Exception;
 
-	public String[] checklist(String[] info) throws Exception;
-
 	public User updateUser(User user, String email) throws Exception;
+	
+	public String[] checklistConfig(String[] info) throws Exception;
+
+	public String[] checklistNetwork(String[] info) throws Exception;
+
+	public String[] checklistPermission(String[] info) throws Exception;
+
+	public String[] checklistPassword(String[] info) throws Exception;
+
+	public String[] checklistSession(String[] info) throws Exception;
+
+	public String[] checklistMaintenance(String[] info) throws Exception;
+
+	public String[] checklistData(String[] info) throws Exception;
+
+	public String[] checklistRol(String[] info) throws Exception;
+
+	public String BDName(String info) throws Exception;
+
 
 
 }
