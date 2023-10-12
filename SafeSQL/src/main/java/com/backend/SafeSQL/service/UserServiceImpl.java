@@ -21,6 +21,8 @@ import com.backend.SafeSQL.model.UserRol;
 @Service
 public class UserServiceImpl implements UserService {
 
+	String[] array = new String[71];
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -140,7 +142,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistConfig(String [] info) throws Exception {
 
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -263,8 +264,7 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
+	
 
 		return array;
 	}
@@ -273,7 +273,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistNetwork(String [] info) throws Exception {
 		
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -313,8 +312,7 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
+
 
 		return array;
 	}
@@ -322,7 +320,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistPermission(String[] info) throws Exception {
 	
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -383,8 +380,7 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
+	
 
 		return array;
 	}
@@ -393,7 +389,6 @@ public class UserServiceImpl implements UserService {
 
 
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -455,8 +450,7 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
+
 
 		return array;
 	}
@@ -464,7 +458,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistSession(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -523,7 +516,7 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[42].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check42 = "USE " + bd[1]
-						+ "; CREATE TABLE inicios_fallidos(logdate datetime, processinfo nvarchar(10), text nvarchar(200)); INSERT INTO inicios_fallidos exec sp_readerrorlog 0, 1, 'Login failed' CREATE TABLE inicios_buenos(logdate datetime, processinfo nvarchar(10), text nvarchar(200)); INSERT INTO inicios_buenos exec sp_readerrorlog 0, 1, 'Login' SELECT CASE WHEN (SELECT round(info.resultado*100,2) FROM( SELECT ((SELECT cast(count(*)  AS float) AS intentos_f FROM inicios_fallidos WHERE  convert(date,logdate)= convert(date,getdate()))/ (SELECT  cast( CASE count(*) WHEN '0' THEN '1' END as float)  intentos_b FROM inicios_buenos WHERE convert(date,logdate)= convert(date,getdate()))) resultado) AS info) <= 10 THEN '0' WHEN (SELECT round(info.resultado*100,2) FROM( SELECT ((SELECT cast(count(*)  AS float) AS intentos_f FROM inicios_fallidos WHERE  convert(date,logdate)= convert(date,getdate()))/ (SELECT  cast( CASE count(*) WHEN '0' THEN '1' END as float)  intentos_b FROM inicios_buenos WHERE convert(date,logdate)= convert(date,getdate()))) resultado) AS info) > 10 AND (SELECT round(info.resultado*100,2) FROM( SELECT ((SELECT cast(count(*)  AS float) AS intentos_f FROM inicios_fallidos WHERE  convert(date,logdate)= convert(date,getdate()))/ (SELECT  cast( CASE count(*) WHEN '0' THEN '1' END as float)  intentos_b FROM inicios_buenos WHERE convert(date,logdate)= convert(date,getdate()))) resultado) AS info) < 40 THEN '1' ELSE '2' END";
+						+ "; CREATE TABLE inicios_fallidos(logdate datetime, processinfo nvarchar(10), text nvarchar(200)); INSERT INTO inicios_fallidos exec sp_readerrorlog 0, 1, 'Login failed' CREATE TABLE inicios_buenos(logdate datetime, processinfo nvarchar(10), text nvarchar(200)); INSERT INTO inicios_buenos exec sp_readerrorlog 0, 1, 'Login' SELECT CASE WHEN (SELECT round(info.resultado*100,2) FROM( SELECT ((SELECT cast(count(*)  AS float) AS intentos_f FROM inicios_fallidos WHERE  convert(date,logdate)= convert(date,getdate()))/ (SELECT  cast( CASE count(*) WHEN '0' THEN '1' END as float)  intentos_b FROM inicios_buenos WHERE convert(date,logdate)= convert(date,getdate()))) resultado) AS info) = 0 THEN '0' ELSE '1' END";
 
 				resultSet = statement.executeQuery(check42);
 
@@ -545,8 +538,6 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
 
 		return array;
 	}
@@ -554,7 +545,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistMaintenance(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -597,8 +587,6 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
 
 		return array;
 	}
@@ -606,7 +594,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistData(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -673,8 +660,6 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
 
 		return array;
 	}
@@ -682,7 +667,6 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistRol(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-		String[] array = new String[71];
 
 		String[] listchecks = info[0].split(",");
 
@@ -725,12 +709,15 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
 
 		return array;
 	}
 
+	public void deleteInfo(String[] info) throws Exception {
+		User userAux = userRepository.findByEmail(info[1]);
 
+		userAux.setInformation("");
+		userRepository.save(userAux);
+	}
 
 }

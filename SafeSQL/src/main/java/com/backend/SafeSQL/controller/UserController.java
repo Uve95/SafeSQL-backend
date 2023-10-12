@@ -295,5 +295,21 @@ public class UserController {
 
 	}
 	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("delete-info")
+	public void deleteInfo(@RequestBody String[] info) throws Exception {
+
+		try {
+
+			userService.deleteInfo(info);
+
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
 
 }

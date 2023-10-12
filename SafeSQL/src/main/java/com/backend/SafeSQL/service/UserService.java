@@ -41,6 +41,8 @@ public interface UserService {
 
 	public String BDName(String info) throws Exception;
 
+	public void deleteInfo(String[] info) throws Exception;
+
 
 
 }
