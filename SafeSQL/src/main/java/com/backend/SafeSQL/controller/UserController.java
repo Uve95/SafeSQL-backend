@@ -38,13 +38,15 @@ import com.backend.SafeSQL.service.UserService;
 
 public class UserController {
 
-	String cadenaAux = "";
 
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	String [] array = new String[71];
+
 
 	@PostMapping("register")
 	public User register(@RequestBody User user) throws Exception {
@@ -68,14 +70,14 @@ public class UserController {
 	
 	
 	@PreAuthorize("hasRole('USER')")
-	@PostMapping("update/{email}")
-	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("email") String email)
+	@PostMapping("update/{token}")
+	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("token") String token)
 			throws Exception {
 
 		if(user.getPassword() != "")
 			user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 
-		userService.updateUser(user, email);
+		userService.updateUser(user, token);
 
 		return new ResponseEntity<User>(HttpStatus.OK);
 
@@ -149,8 +151,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
-
 			array = userService.checklistConfig(info);
 
 			return array;
@@ -168,7 +168,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
 
 			array = userService.checklistNetwork(info);
 
@@ -187,8 +186,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
-
 			array = userService.checklistPermission(info);
 
 			return array;
@@ -206,7 +203,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
 
 			array = userService.checklistPassword(info);
 
@@ -225,7 +221,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
 
 			array = userService.checklistSession(info);
 
@@ -244,7 +239,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
 
 			array = userService.checklistMaintenance(info);
 
@@ -263,7 +257,6 @@ public class UserController {
 
 		try {
 
-			String [] array = new String[71];
 
 			array = userService.checklistData(info);
 
@@ -281,8 +274,6 @@ public class UserController {
 	public String[] checklistRol(@RequestBody String[] info) throws Exception {
 
 		try {
-
-			String [] array = new String[71];
 
 			array = userService.checklistRol(info);
 

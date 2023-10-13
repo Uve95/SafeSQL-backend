@@ -292,7 +292,7 @@ public class UserServiceImpl implements UserService {
 
 			if (listchecks[10].equalsIgnoreCase("true")) {
 				String check10 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) > 1 THEN '1' WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) = 1 AND (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) = 'TRUE' THEN '0' END";
+						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) >= 1 THEN '1' ELSE '0' END";
 
 				resultSet = statement.executeQuery(check10);
 
@@ -525,7 +525,7 @@ public class UserServiceImpl implements UserService {
 					array[42] = resultSet.getString(1);
 				}
 
-				String deleteTables = "USE " + bd[1] + ";DROP TABLE inicios_fallidos; DROP TABLE inicios_buenos";
+				String deleteTables = "USE " + bd[1] + ";DROP TABLE inicios_fallidos; DROP TABLE inicios_buenos;";
 				statement.execute(deleteTables);
 				resultSet = null;
 
@@ -708,7 +708,6 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 
 		}
-
 
 		return array;
 	}
