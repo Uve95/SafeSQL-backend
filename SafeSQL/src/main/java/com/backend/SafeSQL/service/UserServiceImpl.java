@@ -138,6 +138,13 @@ public class UserServiceImpl implements UserService {
 		
 		return  bd[1];
 	}
+	
+	public void deleteInfo(String info) throws Exception {
+		User userAux = userRepository.findByEmail(info);
+
+		userAux.setInformation("");
+		userRepository.save(userAux);
+	}
 
 	public String[] checklistConfig(String [] info) throws Exception {
 
@@ -470,6 +477,9 @@ public class UserServiceImpl implements UserService {
 		try (Connection connection = DriverManager.getConnection(cadena);
 				Statement statement = connection.createStatement();) {
 
+			String deleteTables = "USE " + bd[1] +";DROP TABLE IF EXISTS inicios_fallidos; DROP TABLE IF EXISTS inicios_buenos; DROP TABLE IF EXISTS diccionario;";
+			statement.execute(deleteTables);
+			
 			array[0] = bd[1];
 
 			// --Revision de inicios de sesión---------------------------- array/check(41 al
@@ -495,6 +505,9 @@ public class UserServiceImpl implements UserService {
 				array[40] = "-1";
 
 			}
+			
+			statement.execute(deleteTables);
+
 
 			if (listchecks[41].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
@@ -512,6 +525,9 @@ public class UserServiceImpl implements UserService {
 				array[41] = "-1";
 
 			}
+			
+			statement.execute(deleteTables);
+
 
 			if (listchecks[42].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
@@ -524,20 +540,21 @@ public class UserServiceImpl implements UserService {
 				while (resultSet.next()) {
 					array[42] = resultSet.getString(1);
 				}
-
-				String deleteTables = "USE " + bd[1] + ";DROP TABLE inicios_fallidos; DROP TABLE inicios_buenos;";
-				statement.execute(deleteTables);
 				resultSet = null;
+
+
 
 			} else {
 				array[42] = "-1";
 			}
+			
+			statement.execute(deleteTables);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 
 		}
-
 
 		return array;
 	}
@@ -605,6 +622,9 @@ public class UserServiceImpl implements UserService {
 		
 		try (Connection connection = DriverManager.getConnection(cadena);
 				Statement statement = connection.createStatement();) {
+			
+			String deleteTables = "USE " + bd[1] +"; DROP TABLE IF EXISTS diccionario";
+			statement.execute(deleteTables);
 
 			array[0] = bd[1];
 
@@ -616,7 +636,7 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[60].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check60 = "USE " + bd[1]
-						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); insert into diccionario values ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >= 0 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 30 THEN '0' WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >=30 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 60 THEN '1' ELSE '2' END";
+						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); INSERT INTO diccionario VALUES ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >= 0 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 30 THEN '0' WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >=30 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 60 THEN '1' ELSE '2' END";
 
 				resultSet = statement.executeQuery(check60);
 
@@ -624,20 +644,19 @@ public class UserServiceImpl implements UserService {
 				while (resultSet.next()) {
 					array[60] = resultSet.getString(1);
 				}
-
-				String deleteTables = "USE " + bd[1] + "; DROP TABLE diccionario";
-				statement.execute(deleteTables);
-				resultSet = null;
+				
 
 			} else {
 				array[60] = "-1";
 
 			}
+			
+			statement.execute(deleteTables);
 
 			if (listchecks[61].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check61 = "USE " + bd[1]
-						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); insert into diccionario values ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE round(cast(resultado_cifradas.resultado*100 as float),2) WHEN '0' THEN '0' ELSE '1' END from ( SELECT ( SELECT( SELECT( (SELECT  cast(count(*) as float) as contar_encriptados from diccionario d join (SELECT name from sys.columns where [encryption_type] IS NOT NULL) as columnas_encriptadas on columnas_encriptadas.name like d.nombre)) as columnas_encriptadas) / (SELECT  cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas on nombre_columnas.column_name like d.nombre) as columnas_sensibles) resultado) as resultado_cifradas";
+						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); INSERT INTO diccionario VALUES ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE round(cast(resultado_cifradas.resultado*100 as float),2) WHEN '0' THEN '0' ELSE '1' END from ( SELECT ( SELECT( SELECT( (SELECT  cast(count(*) as float) as contar_encriptados from diccionario d join (SELECT name from sys.columns where [encryption_type] IS NOT NULL) as columnas_encriptadas on columnas_encriptadas.name like d.nombre)) as columnas_encriptadas) / (SELECT  cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas on nombre_columnas.column_name like d.nombre) as columnas_sensibles) resultado) as resultado_cifradas";
 
 				resultSet = statement.executeQuery(check61);
 
@@ -646,21 +665,21 @@ public class UserServiceImpl implements UserService {
 					array[61] = resultSet.getString(1);
 				}
 
-				String deleteTables = "USE " + bd[1] + "; DROP TABLE diccionario";
-				statement.execute(deleteTables);
-				resultSet = null;
 
 			} else {
 				array[61] = "-1";
 
 			}
+			
+			statement.execute(deleteTables);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 
 		}
 
-
+		resultSet = null;
 		return array;
 	}
 
@@ -712,11 +731,14 @@ public class UserServiceImpl implements UserService {
 		return array;
 	}
 
-	public void deleteInfo(String[] info) throws Exception {
-		User userAux = userRepository.findByEmail(info[1]);
+	@Override
+	public String getToken(String info) throws Exception {
 
-		userAux.setInformation("");
-		userRepository.save(userAux);
+		User userAux = userRepository.findByEmail(info);
+
+		return userAux.getToken();
 	}
+
+
 
 }

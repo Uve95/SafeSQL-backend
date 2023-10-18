@@ -41,7 +41,7 @@ public class AdminController {
 		return lista;
 	}
 
-	@PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
 	@GetMapping("details/{token}")
 	public ResponseEntity<?> details(@PathVariable("token") String token) throws Exception {
 

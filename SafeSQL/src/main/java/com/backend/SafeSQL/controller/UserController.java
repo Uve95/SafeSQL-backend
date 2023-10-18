@@ -145,6 +145,8 @@ public class UserController {
 
 	}
 	
+	
+
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("checklistConfiguration")
 	public String[] checklistConfiguration(@RequestBody String[] info) throws Exception {
@@ -286,9 +288,26 @@ public class UserController {
 
 	}
 	
-	@PreAuthorize("hasRole('USER')")
+	//@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@GetMapping("actual-token/{email}")
+	public String getToken(@PathVariable("email") String email) throws Exception {
+
+		try {
+
+			String token = userService.getToken(email);
+
+			return token;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	//@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
 	@PostMapping("delete-info")
-	public void deleteInfo(@RequestBody String[] info) throws Exception {
+	public void deleteInfo(@RequestBody String info) throws Exception {
 
 		try {
 

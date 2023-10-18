@@ -60,7 +60,7 @@ public class MySecurityConfig{
         .cors()
         .disable()
         .authorizeHttpRequests()
-        .requestMatchers("/actual-user","/generate-token","api/user/register","api/user/forgotPassword","api/user/changePassword","api/user/connectBD","api/user/checklist","api/user/actual-bd").permitAll()
+        .requestMatchers("/actual-user","/generate-token","api/user/register","api/user/forgotPassword","api/user/changePassword","api/user/connectBD","api/user/checklist","api/user/actual-bd","api/user/actual-token/**","api/user/delete-info").permitAll()
         .requestMatchers(HttpMethod.OPTIONS).permitAll()
         .requestMatchers("/api/admin/").hasRole("ADMIN")
         //.requestMatchers("/api/user/").hasRole("USER")
