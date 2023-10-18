@@ -20,6 +20,7 @@ com\backend\SafeSQL\SafeSqlApplication.class
 com\backend\SafeSQL\configuration\JwtUtil.class
 com\backend\SafeSQL\service\Passgenerator.class
 com\backend\SafeSQL\service\UserDetailsServiceImpl.class
+com\backend\SafeSQL\model\NumberGenerator.class
 com\backend\SafeSQL\service\UserServiceImpl.class
 com\backend\SafeSQL\dao\RolRepository.class
 com\backend\SafeSQL\model\JwtRequest.class
