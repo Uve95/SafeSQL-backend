@@ -45,7 +45,7 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	String [] array = new String[71];
+	String [] array = new String[72];
 
 
 	@PostMapping("register")

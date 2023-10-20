@@ -21,7 +21,7 @@ import com.backend.SafeSQL.model.UserRol;
 @Service
 public class UserServiceImpl implements UserService {
 
-	String[] array = new String[71];
+	String[] array = new String[72];
 
 	@Autowired
 	private UserRepository userRepository;
@@ -313,6 +313,82 @@ public class UserServiceImpl implements UserService {
 				array[10] = "-1";
 
 			}
+			
+			// ----¿Se ha deshabilitado la autenticación anónima en SQL Server?
+
+			if (listchecks[11].equalsIgnoreCase("true")) {
+				String check11 = "USE " + bd[1]
+						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.configurations WHERE (name = 'contained database authentication' OR name = 'common criteria compliance enabled') AND value_in_use = 0 ) THEN 0 ELSE 1 END;";
+
+				resultSet = statement.executeQuery(check11);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[11] = resultSet.getString(1);
+				}
+				resultSet = null;
+
+			} else {
+				array[11] = "-1";
+
+			}
+			
+			// ----¿Se están utilizando puertos no estándar para SQL Server?
+
+			if (listchecks[12].equalsIgnoreCase("true")) {
+				String check12 = "USE " + bd[1]
+						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.dm_exec_connections WHERE local_net_address = '0.0.0.0' AND local_tcp_port != 1433 ) THEN 1 ELSE 0 END;";
+
+				resultSet = statement.executeQuery(check12);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[12] = resultSet.getString(1);
+				}
+				resultSet = null;
+
+			} else {
+				array[12] = "-1";
+
+			}
+			
+			// ----¿Las conexiones remotas a SQL Server están cifradas mediante SSL/TLS?
+			
+			if (listchecks[13].equalsIgnoreCase("true")) {
+				String check13 = "USE " + bd[1]
+						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsEncrypted FROM sys.configurations WHERE name = 'remote access';";
+
+				resultSet = statement.executeQuery(check13);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[13] = resultSet.getString(1);
+				}
+				resultSet = null;
+
+			} else {
+				array[13] = "-1";
+
+			}
+			
+			// ----¿Se han asegurado de que todas las conexiones requieran autenticación?
+
+			if (listchecks[14].equalsIgnoreCase("true")) {
+				String check14 = "USE " + bd[1]
+						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsAuthenticationRequired FROM sys.configurations WHERE name LIKE 'remote login %';";
+
+				resultSet = statement.executeQuery(check14);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[14] = resultSet.getString(1);
+				}
+				resultSet = null;
+
+			} else {
+				array[14] = "-1";
+
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -598,6 +674,63 @@ public class UserServiceImpl implements UserService {
 				array[50] = "-1";
 
 			}
+			// ----¿Cuando fue la última vez que se ejecutó una copia de seguridad?
+
+			if (listchecks[51].equalsIgnoreCase("true")) {
+				// Create and execute a SELECT SQL statement.
+				String check51 = "USE " + bd[1]
+						+ "; SELECT CASE WHEN MAX(backup_finish_date) >= DATEADD(MONTH, -1, GETDATE()) THEN 0 ELSE 1 END AS 'Estado' FROM msdb.dbo.backupset GROUP BY database_name;";
+				resultSet = statement.executeQuery(check51);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[51] = resultSet.getString(1);
+				}
+
+				resultSet = null;
+
+			} else {
+				array[51] = "-1";
+
+			}
+			// ----¿Tiene una fragmentación optima?
+
+			if (listchecks[52].equalsIgnoreCase("true")) {
+				// Create and execute a SELECT SQL statement.
+				String check52 = "USE " + bd[1]
+						+ "; SELECT CASE WHEN AVG(avg_fragmentation_in_percent) < 10 THEN 0 ELSE 1 END AS 'Estado de Fragmentación' FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL, NULL);";
+				resultSet = statement.executeQuery(check52);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[52] = resultSet.getString(1);
+				}
+
+				resultSet = null;
+
+			} else {
+				array[52] = "-1";
+
+			}
+			// ----¿Que uso por sesión en SQL Server tiene de media la CPU?
+
+			if (listchecks[53].equalsIgnoreCase("true")) {
+				// Create and execute a SELECT SQL statement.
+				String check53 = "USE " + bd[1]
+						+ "; SELECT CASE WHEN (AVG(cpu_time * 1.0) / MAX(cpu_time)) * 100 < 40 THEN 0 ELSE 1 END AS Resultado FROM sys.dm_exec_requests WHERE session_id > 50;";
+				resultSet = statement.executeQuery(check53);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[53] = resultSet.getString(1);
+				}
+
+				resultSet = null;
+
+			} else {
+				array[53] = "-1";
+
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -708,7 +841,7 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[70].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check70 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) >= 0 AND (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) < 25 THEN '0' WHEN (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) >=25 AND (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) < 50 THEN '1' ELSE '2' END";
+						+ "; SELECT CASE WHEN (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) >= 0 AND (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) < 25 THEN '0' ELSE '1' END";
 
 				resultSet = statement.executeQuery(check70);
 
@@ -720,6 +853,27 @@ public class UserServiceImpl implements UserService {
 
 			} else {
 				array[70] = "-1";
+
+			}
+			
+			// --¿ Utilizas roles fijos como db_datareader y db_datawriter?
+
+
+			if (listchecks[71].equalsIgnoreCase("true")) {
+				// Create and execute a SELECT SQL statement.
+				String check71 = "USE " + bd[1]
+						+ "; SELECT CASE WHEN (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datareader') <= 1 AND (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datawriter') <= 1 THEN 0 ELSE 1 END AS 'Resultado';";
+
+				resultSet = statement.executeQuery(check71);
+
+				// Print results from select statement
+				while (resultSet.next()) {
+					array[71] = resultSet.getString(1);
+				}
+				resultSet = null;
+
+			} else {
+				array[71] = "-1";
 
 			}
 
