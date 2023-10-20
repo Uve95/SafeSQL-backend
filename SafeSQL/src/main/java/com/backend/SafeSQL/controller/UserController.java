@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,6 +47,7 @@ public class UserController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	String [] array = new String[72];
+
 
 
 	@PostMapping("register")
@@ -129,12 +131,13 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasRole('USER')")
-	@PostMapping("BDName")
-	public String BDName(@RequestBody String info) throws Exception {
+	@GetMapping("actual-bd/{email}")
+	public String BDName(@PathVariable("email") String email) throws Exception {
 
 		try {
 
-			String BDName = userService.BDName(info);
+			String BDName = userService.BDName(email);
+			Arrays.fill(array, null);
 
 			return BDName;
 
@@ -288,7 +291,7 @@ public class UserController {
 
 	}
 	
-	//@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
 	@GetMapping("actual-token/{email}")
 	public String getToken(@PathVariable("email") String email) throws Exception {
 
@@ -305,7 +308,7 @@ public class UserController {
 
 	}
 	
-	//@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
 	@PostMapping("delete-info")
 	public void deleteInfo(@RequestBody String info) throws Exception {
 

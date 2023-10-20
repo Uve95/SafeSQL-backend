@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.json.JSONObject;
@@ -135,8 +136,11 @@ public class UserServiceImpl implements UserService {
 		String cadena = userAux.getInformation();
 		String[] cadenaInfo = cadena.split(";");
 		String[] bd = cadenaInfo[1].split("=");
+		bd= bd[1].split(",");
+		String name = bd[0];
+		Arrays.fill(array, null);
 		
-		return  bd[1];
+		return name;
 	}
 	
 	public void deleteInfo(String info) throws Exception {
@@ -778,6 +782,8 @@ public class UserServiceImpl implements UserService {
 					array[60] = resultSet.getString(1);
 				}
 				
+				resultSet = null;
+
 
 			} else {
 				array[60] = "-1";
@@ -797,6 +803,7 @@ public class UserServiceImpl implements UserService {
 				while (resultSet.next()) {
 					array[61] = resultSet.getString(1);
 				}
+				resultSet = null;
 
 
 			} else {
@@ -841,7 +848,7 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[70].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
 				String check70 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) >= 0 AND (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) < 25 THEN '0' ELSE '1' END";
+						+ "; SELECT CASE WHEN (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) >= 0 AND (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) < 25 THEN '0' ELSE '1' END;";
 
 				resultSet = statement.executeQuery(check70);
 
@@ -861,7 +868,7 @@ public class UserServiceImpl implements UserService {
 
 			if (listchecks[71].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check71 = "USE " + bd[1]
+				String check71 = "USE " + bd[1] 
 						+ "; SELECT CASE WHEN (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datareader') <= 1 AND (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datawriter') <= 1 THEN 0 ELSE 1 END AS 'Resultado';";
 
 				resultSet = statement.executeQuery(check71);
