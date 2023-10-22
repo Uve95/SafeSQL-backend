@@ -2,7 +2,6 @@ package com.backend.SafeSQL.controller;
 
 import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,8 +36,7 @@ public class AdminController {
 	@GetMapping("list")
 	public List<User> findAll() throws Exception {
 
-		List<User> lista = adminService.list();
-		return lista;
+		return adminService.list();
 	}
 
 	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
@@ -48,7 +45,7 @@ public class AdminController {
 
 		User user = adminService.details(token);
 
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
@@ -56,12 +53,12 @@ public class AdminController {
 	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("token") String email)
 			throws Exception {
 
-		if(user.getPassword() != "")
+		if(!user.getPassword().equals(""))
 			user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 
 		adminService.updateUser(user, email);
 
-		return new ResponseEntity<User>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
 
@@ -71,7 +68,7 @@ public class AdminController {
 
 		adminService.deleteUser(email);
 
-		return new ResponseEntity(new Message("El usuario ha sido eliminado"), HttpStatus.OK);
+		return new ResponseEntity<>(new Message("El usuario ha sido eliminado"), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")

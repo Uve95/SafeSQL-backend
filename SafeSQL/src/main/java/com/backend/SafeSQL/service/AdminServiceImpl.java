@@ -15,9 +15,8 @@ public class AdminServiceImpl implements AdminService {
 	private UserRepository userRepository;
 
 	public List<User> list() {
-		List<User> lista = userRepository.findAll();
 
-		return lista;
+		return userRepository.findAll();
 	}
 
 	public User details(String token) throws Exception {
@@ -38,10 +37,10 @@ public class AdminServiceImpl implements AdminService {
 
 		User userUpdate = userRepository.findByToken(token);
 
-		if (user.getName() != "")
+		if (!user.getName().equals(""))
 			userUpdate.setName(user.getName());
 
-		if (user.getSurname() != "")
+		if (!user.getSurname().equals(""))
 			userUpdate.setSurname(user.getSurname());
 
 		userRepository.save(userUpdate);
@@ -58,22 +57,6 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-	/*
-	 * public void login(JSONObject jso) throws Exception {
-	 * 
-	 * User user = new User(); String email = jso.getString("email"); String
-	 * password = jso.getString("password");
-	 * 
-	 * if (userDAO.findByEmail(email) == null) throw new
-	 * Exception("No existe el usuario con email " + email);
-	 * 
-	 * user = userDAO.findByEmail(email);
-	 * 
-	 * if (!user.getPassword().equals(password)) throw new
-	 * Exception("Credenciales invalidas");
-	 * 
-	 * }
-	 */
 
 	public boolean existUser(String email) {
 

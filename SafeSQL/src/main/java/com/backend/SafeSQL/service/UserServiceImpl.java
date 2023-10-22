@@ -5,14 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.backend.SafeSQL.dao.RolRepository;
 import com.backend.SafeSQL.dao.UserRepository;
@@ -40,10 +37,10 @@ public class UserServiceImpl implements UserService {
 
 		User userUpdate = userRepository.findByToken(token);
 
-		if (user.getName() != "")
+		if (!user.getName().equals(""))
 			userUpdate.setName(user.getName());
 
-		if (user.getSurname() != "")
+		if (!user.getSurname().equals(""))
 			userUpdate.setSurname(user.getSurname());
 
 		userRepository.save(userUpdate);
@@ -105,9 +102,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void connectBD(String[] info) {
-		ResultSet resultSet = null;
-		// String connectionUrl =
-		// "jdbc:sqlserver://DESKTOP-4D5JPR3;databaseName=AdventureWorksLT2019;user=Admin;password=Admin;trustServerCertificate=true;";
 
 		if (userRepository.findByEmail(info[1]) != null) {
 
@@ -116,7 +110,7 @@ public class UserServiceImpl implements UserService {
 			try (Connection connection = DriverManager.getConnection(info[0]);
 					Statement statement = connection.createStatement();) {
 				String sqlcheck = "SELECT DB_NAME() AS [Current Database];";
-				resultSet = statement.executeQuery(sqlcheck);
+				statement.executeQuery(sqlcheck);
 
 				userAux.setInformation(info[0]);
 				userRepository.save(userAux);
@@ -130,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public String BDName(String info) throws Exception {
+	public String bdName(String info) throws Exception {
 
 		User userAux = userRepository.findByEmail(info);
 		String cadena = userAux.getInformation();
@@ -155,17 +149,14 @@ public class UserServiceImpl implements UserService {
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		String[] user = cadenaInfo[2].split("=");
-		
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
 
-			array[0] = bd[1];
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
+		    array[0] = bd[1];
 
 			// --Configuración---------------------------- array/check(1 al 10); listcheck(0
 			// al 9);
@@ -286,17 +277,14 @@ public class UserServiceImpl implements UserService {
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		String[] user = cadenaInfo[2].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
 
-			array[0] = bd[1];
+		    array[0] = bd[1];
 
 			// --Red---------------------------- array/check(11 al 20); listcheck(10 al 19);
 			// ----¿Existe un cifrado para las conexiones entrantes?
@@ -409,18 +397,15 @@ public class UserServiceImpl implements UserService {
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 		String[] user = cadenaInfo[2].split("=");
-		
-		
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
 
-			array[0] = bd[1];
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
+		    array[0] = bd[1];
 
 			// --Permisos---------------------------- array/check(21 al 30); listcheck(20 al
 			// 29);
@@ -478,18 +463,14 @@ public class UserServiceImpl implements UserService {
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		String[] user = cadenaInfo[2].split("=");
-		
-		
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
 
-			array[0] = bd[1];
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
+		    array[0] = bd[1];
 
 			// --Políticas de contraseña---------------------------- array/check(31 al
 			// 40);listcheck(30 al 39);
@@ -545,17 +526,14 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistSession(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		String[] user = cadenaInfo[2].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
 
 			String deleteTables = "USE " + bd[1] +";DROP TABLE IF EXISTS inicios_fallidos; DROP TABLE IF EXISTS inicios_buenos; DROP TABLE IF EXISTS diccionario;";
 			statement.execute(deleteTables);
@@ -642,19 +620,17 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistMaintenance(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-
+		
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 		String[] user = cadenaInfo[2].split("=");
-		
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
 
-			array[0] = bd[1];
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
+		    array[0] = bd[1];
 
 			// --Mantenimiento---------------------------- array/check(51 al
 			// 60);listcheck(50 al 59);
@@ -750,20 +726,18 @@ public class UserServiceImpl implements UserService {
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		String[] user = cadenaInfo[2].split("=");
-		
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
+
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
+		    array[0] = bd[1];
 			
 			String deleteTables = "USE " + bd[1] +"; DROP TABLE IF EXISTS diccionario";
 			statement.execute(deleteTables);
 
-			array[0] = bd[1];
 
 			// --Datos sensibles---------------------------- array/check(61 al
 			// 70);listcheck(60 al 69);
@@ -828,17 +802,14 @@ public class UserServiceImpl implements UserService {
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
-
 		User userAux = userRepository.findByEmail(info[1]);
-		String cadena = userAux.getInformation();
-		String[] cadenaInfo = cadena.split(";");
+		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		String[] user = cadenaInfo[2].split("=");
-		
-		try (Connection connection = DriverManager.getConnection(cadena);
-				Statement statement = connection.createStatement();) {
 
-			array[0] = bd[1];
+		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
+		     Statement statement = connection.createStatement()) {
+
+		    array[0] = bd[1];
 
 			// --Roles---------------------------- array/check(71 al 80); listcheck(70 al
 			// 79);

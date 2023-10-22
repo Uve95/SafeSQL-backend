@@ -3,7 +3,6 @@ package com.backend.SafeSQL.model;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "users")
 
@@ -49,8 +49,7 @@ public class User implements UserDetails{
 	
 
 	public String createToken() {
-    	String token = Math.round(Math.random()*99999999)+"";
-		return token;
+		return Math.round(Math.random()*99999999)+"";
 	}
 
 
@@ -97,10 +96,6 @@ public class User implements UserDetails{
 
 	public boolean isEnabled() {
 		return enabled;
-	}
-
-	public void setEnabled(boolean enable) {
-		this.enabled = enabled;
 	}
 	
 

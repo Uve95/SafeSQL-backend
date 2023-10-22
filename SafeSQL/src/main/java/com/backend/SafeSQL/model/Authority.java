@@ -2,6 +2,7 @@ package com.backend.SafeSQL.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+@SuppressWarnings("serial")
 public class Authority implements GrantedAuthority{
 
 	

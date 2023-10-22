@@ -1,10 +1,6 @@
 package com.backend.SafeSQL.service;
 
-import java.util.ArrayList;
 import java.util.Set;
-
-import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.backend.SafeSQL.model.User;
 import com.backend.SafeSQL.model.UserRol;
@@ -39,7 +35,7 @@ public interface UserService {
 
 	public String[] checklistRol(String[] info) throws Exception;
 
-	public String BDName(String info) throws Exception;
+	public String bdName(String info) throws Exception;
 
 	public void deleteInfo(String info) throws Exception;
 

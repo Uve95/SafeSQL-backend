@@ -1,36 +1,19 @@
 package com.backend.SafeSQL.service;
 
 
-import org.hibernate.sql.Template;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
-import com.backend.SafeSQL.dao.UserRepository;
-import com.backend.SafeSQL.model.Message;
 import com.backend.SafeSQL.model.User;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.naming.Context;
-
-import java.nio.charset.StandardCharsets;
 
 @Service
 public class MailService {
 	
 	@Autowired
     private JavaMailSender emailSender;
-	@Autowired
-	private UserRepository userDAO;
+
 
 
 	
