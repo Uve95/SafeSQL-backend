@@ -2,7 +2,6 @@ com\backend\SafeSQL\model\User.class
 com\backend\SafeSQL\model\UserRol.class
 com\backend\SafeSQL\controller\AdminController.class
 com\backend\SafeSQL\configuration\MySecurityConfig.class
-com\backend\SafeSQL\model\Admin.class
 com\backend\SafeSQL\model\Rol.class
 com\backend\SafeSQL\service\AdminService.class
 com\backend\SafeSQL\service\AdminServiceImpl.class
@@ -18,7 +17,6 @@ com\backend\SafeSQL\service\UserService.class
 com\backend\SafeSQL\service\MailService.class
 com\backend\SafeSQL\SafeSqlApplication.class
 com\backend\SafeSQL\configuration\JwtUtil.class
-com\backend\SafeSQL\service\Passgenerator.class
 com\backend\SafeSQL\service\UserDetailsServiceImpl.class
 com\backend\SafeSQL\model\NumberGenerator.class
 com\backend\SafeSQL\service\UserServiceImpl.class

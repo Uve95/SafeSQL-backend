@@ -15,7 +15,7 @@ public interface UserService {
 
 	public void forgotPassword(User user) throws Exception;
 
-	public void connectBD(String[] info) throws Exception;
+	public boolean connectBD(String[] info) throws Exception;
 
 	public User updateUser(User user, String email) throws Exception;
 	

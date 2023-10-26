@@ -101,7 +101,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void connectBD(String[] info) {
+	public boolean connectBD(String[] info) {
+
+		boolean connected = false;
+		ResultSet resultSet = null;
 
 		if (userRepository.findByEmail(info[1]) != null) {
 
@@ -110,10 +113,15 @@ public class UserServiceImpl implements UserService {
 			try (Connection connection = DriverManager.getConnection(info[0]);
 					Statement statement = connection.createStatement();) {
 				String sqlcheck = "SELECT DB_NAME() AS [Current Database];";
-				statement.executeQuery(sqlcheck);
+				resultSet = statement.executeQuery(sqlcheck);
 
 				userAux.setInformation(info[0]);
 				userRepository.save(userAux);
+				while (resultSet.next()) {
+					System.out.println(resultSet.getString(1));
+
+				}
+				connected = true;
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -121,6 +129,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 		}
+		return connected;
 
 	}
 
@@ -130,13 +139,13 @@ public class UserServiceImpl implements UserService {
 		String cadena = userAux.getInformation();
 		String[] cadenaInfo = cadena.split(";");
 		String[] bd = cadenaInfo[1].split("=");
-		bd= bd[1].split(",");
+		bd = bd[1].split(",");
 		String name = bd[0];
 		Arrays.fill(array, null);
-		
+
 		return name;
 	}
-	
+
 	public void deleteInfo(String info) throws Exception {
 		User userAux = userRepository.findByEmail(info);
 
@@ -144,7 +153,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(userAux);
 	}
 
-	public String[] checklistConfig(String [] info) throws Exception {
+	public String[] checklistConfig(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
 
@@ -153,10 +162,10 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
+			array[0] = bd[1];
 
 			// --Configuración---------------------------- array/check(1 al 10); listcheck(0
 			// al 9);
@@ -266,14 +275,11 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-	
-
 		return array;
 	}
 
+	public String[] checklistNetwork(String[] info) throws Exception {
 
-	public String[] checklistNetwork(String [] info) throws Exception {
-		
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
@@ -281,10 +287,10 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
+			array[0] = bd[1];
 
 			// --Red---------------------------- array/check(11 al 20); listcheck(10 al 19);
 			// ----¿Existe un cifrado para las conexiones entrantes?
@@ -305,7 +311,7 @@ public class UserServiceImpl implements UserService {
 				array[10] = "-1";
 
 			}
-			
+
 			// ----¿Se ha deshabilitado la autenticación anónima en SQL Server?
 
 			if (listchecks[11].equalsIgnoreCase("true")) {
@@ -324,7 +330,7 @@ public class UserServiceImpl implements UserService {
 				array[11] = "-1";
 
 			}
-			
+
 			// ----¿Se están utilizando puertos no estándar para SQL Server?
 
 			if (listchecks[12].equalsIgnoreCase("true")) {
@@ -343,9 +349,9 @@ public class UserServiceImpl implements UserService {
 				array[12] = "-1";
 
 			}
-			
+
 			// ----¿Las conexiones remotas a SQL Server están cifradas mediante SSL/TLS?
-			
+
 			if (listchecks[13].equalsIgnoreCase("true")) {
 				String check13 = "USE " + bd[1]
 						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsEncrypted FROM sys.configurations WHERE name = 'remote access';";
@@ -362,7 +368,7 @@ public class UserServiceImpl implements UserService {
 				array[13] = "-1";
 
 			}
-			
+
 			// ----¿Se han asegurado de que todas las conexiones requieran autenticación?
 
 			if (listchecks[14].equalsIgnoreCase("true")) {
@@ -387,13 +393,11 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-
-
 		return array;
 	}
 
 	public String[] checklistPermission(String[] info) throws Exception {
-	
+
 		ResultSet resultSet = null;
 
 		String[] listchecks = info[0].split(",");
@@ -402,10 +406,10 @@ public class UserServiceImpl implements UserService {
 		String[] bd = cadenaInfo[1].split("=");
 		String[] user = cadenaInfo[2].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
+			array[0] = bd[1];
 
 			// --Permisos---------------------------- array/check(21 al 30); listcheck(20 al
 			// 29);
@@ -452,13 +456,10 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-	
-
 		return array;
 	}
 
 	public String[] checklistPassword(String[] info) throws Exception {
-
 
 		ResultSet resultSet = null;
 
@@ -467,10 +468,10 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
+			array[0] = bd[1];
 
 			// --Políticas de contraseña---------------------------- array/check(31 al
 			// 40);listcheck(30 al 39);
@@ -518,8 +519,6 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-
-
 		return array;
 	}
 
@@ -531,13 +530,13 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-
-			String deleteTables = "USE " + bd[1] +";DROP TABLE IF EXISTS inicios_fallidos; DROP TABLE IF EXISTS inicios_buenos; DROP TABLE IF EXISTS diccionario;";
+			String deleteTables = "USE " + bd[1]
+					+ ";DROP TABLE IF EXISTS inicios_fallidos; DROP TABLE IF EXISTS inicios_buenos; DROP TABLE IF EXISTS diccionario;";
 			statement.execute(deleteTables);
-			
+
 			array[0] = bd[1];
 
 			// --Revision de inicios de sesión---------------------------- array/check(41 al
@@ -563,9 +562,8 @@ public class UserServiceImpl implements UserService {
 				array[40] = "-1";
 
 			}
-			
-			statement.execute(deleteTables);
 
+			statement.execute(deleteTables);
 
 			if (listchecks[41].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
@@ -583,9 +581,8 @@ public class UserServiceImpl implements UserService {
 				array[41] = "-1";
 
 			}
-			
-			statement.execute(deleteTables);
 
+			statement.execute(deleteTables);
 
 			if (listchecks[42].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
@@ -600,14 +597,11 @@ public class UserServiceImpl implements UserService {
 				}
 				resultSet = null;
 
-
-
 			} else {
 				array[42] = "-1";
 			}
-			
-			statement.execute(deleteTables);
 
+			statement.execute(deleteTables);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -620,17 +614,17 @@ public class UserServiceImpl implements UserService {
 	public String[] checklistMaintenance(String[] info) throws Exception {
 
 		ResultSet resultSet = null;
-		
+
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 		String[] user = cadenaInfo[2].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
+			array[0] = bd[1];
 
 			// --Mantenimiento---------------------------- array/check(51 al
 			// 60);listcheck(50 al 59);
@@ -717,7 +711,6 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-
 		return array;
 	}
 
@@ -730,14 +723,13 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
-			
-			String deleteTables = "USE " + bd[1] +"; DROP TABLE IF EXISTS diccionario";
+			array[0] = bd[1];
+
+			String deleteTables = "USE " + bd[1] + "; DROP TABLE IF EXISTS diccionario";
 			statement.execute(deleteTables);
-
 
 			// --Datos sensibles---------------------------- array/check(61 al
 			// 70);listcheck(60 al 69);
@@ -755,15 +747,14 @@ public class UserServiceImpl implements UserService {
 				while (resultSet.next()) {
 					array[60] = resultSet.getString(1);
 				}
-				
-				resultSet = null;
 
+				resultSet = null;
 
 			} else {
 				array[60] = "-1";
 
 			}
-			
+
 			statement.execute(deleteTables);
 
 			if (listchecks[61].equalsIgnoreCase("true")) {
@@ -779,14 +770,12 @@ public class UserServiceImpl implements UserService {
 				}
 				resultSet = null;
 
-
 			} else {
 				array[61] = "-1";
 
 			}
-			
-			statement.execute(deleteTables);
 
+			statement.execute(deleteTables);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -806,10 +795,10 @@ public class UserServiceImpl implements UserService {
 		String[] cadenaInfo = userAux.getInformation().split(";");
 		String[] bd = cadenaInfo[1].split("=");
 
-		try (Connection connection = DriverManager.getConnection(cadenaInfo[0]);
-		     Statement statement = connection.createStatement()) {
+		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
+				Statement statement = connection.createStatement()) {
 
-		    array[0] = bd[1];
+			array[0] = bd[1];
 
 			// --Roles---------------------------- array/check(71 al 80); listcheck(70 al
 			// 79);
@@ -833,13 +822,12 @@ public class UserServiceImpl implements UserService {
 				array[70] = "-1";
 
 			}
-			
-			// --¿ Utilizas roles fijos como db_datareader y db_datawriter?
 
+			// --¿ Utilizas roles fijos como db_datareader y db_datawriter?
 
 			if (listchecks[71].equalsIgnoreCase("true")) {
 				// Create and execute a SELECT SQL statement.
-				String check71 = "USE " + bd[1] 
+				String check71 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datareader') <= 1 AND (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datawriter') <= 1 THEN 0 ELSE 1 END;";
 
 				resultSet = statement.executeQuery(check71);
@@ -870,7 +858,5 @@ public class UserServiceImpl implements UserService {
 
 		return userAux.getToken();
 	}
-
-
 
 }

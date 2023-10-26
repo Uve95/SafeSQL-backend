@@ -101,16 +101,17 @@ public class UserController {
 
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("connectBD")
-	public void connectBD(@RequestBody String[] info) throws Exception {
+	public boolean connectBD(@RequestBody String[] info) throws Exception {
 
 		try {
 
-			userService.connectBD(info);
-
+			boolean connected = userService.connectBD(info);
+			return connected;
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
 		}
+		
 	}
 
 	@PreAuthorize("hasRole('USER')")
