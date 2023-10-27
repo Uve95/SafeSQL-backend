@@ -859,4 +859,53 @@ public class UserServiceImpl implements UserService {
 		return userAux.getToken();
 	}
 
+	public void setTime(String[] info) throws Exception {
+
+		if (userRepository.findByEmail(info[0]) == null)
+			throw new Exception("No existe el usuario con mail " + info[0]);
+
+		User userAux = userRepository.findByEmail(info[0]);
+		userAux.setDate(info[1]);
+		userRepository.save(userAux);
+
+	}
+
+	public String getTime(String email) throws Exception {
+
+		if (userRepository.findByEmail(email) == null)
+			throw new Exception("No existe el usuario con mail " + email);
+
+		User userAux = userRepository.findByEmail(email);
+
+		if (userAux.getDate().equalsIgnoreCase("NULL")) {
+
+			return "Primer acceso";
+
+		}
+
+		return userAux.getDate();
+
+	}
+
+	public void setReport(String[] info) throws Exception {
+
+		if (userRepository.findByEmail(info[0]) == null)
+			throw new Exception("No existe el usuario con mail " + info[0]);
+
+		User userAux = userRepository.findByEmail(info[0]);
+		userAux.setReport(info[1]);
+		userRepository.save(userAux);
+
+	}
+
+	public String getReport(String email) throws Exception {
+
+		if (userRepository.findByEmail(email) == null)
+			throw new Exception("No existe el usuario con mail " + email);
+
+		User userAux = userRepository.findByEmail(email);
+
+		return userAux.getReport();
+
+	}
 }

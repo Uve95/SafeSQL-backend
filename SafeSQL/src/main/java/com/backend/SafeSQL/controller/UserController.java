@@ -295,5 +295,65 @@ public class UserController {
 		}
 
 	}
+	
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@PostMapping("info-time")
+	public void setTime(@RequestBody String [] info) throws Exception {
+
+		try {
+
+			userService.setTime(info);
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@GetMapping("info-time/{email}")
+	public String getTime(@PathVariable("email") String email) throws Exception {
+
+		try {
+
+			return userService.getTime(email);
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@PostMapping("info-report")
+	public void setReport(@RequestBody String [] info) throws Exception {
+
+		try {
+
+			userService.setReport(info);
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
+	
+	@PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
+	@GetMapping("info-report/{email}")
+	public String getReport(@PathVariable("email") String email) throws Exception {
+
+		try {
+
+			return userService.getReport(email);
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+
+	}
 
 }

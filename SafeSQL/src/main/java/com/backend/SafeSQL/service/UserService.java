@@ -40,6 +40,14 @@ public interface UserService {
 	public void deleteInfo(String info) throws Exception;
 
 	public String getToken(String info) throws Exception;
+	
+	public void setTime(String [] info) throws Exception;
+
+	public String getTime(String info) throws Exception;
+
+	public void setReport(String [] info) throws Exception;
+
+	public String getReport(String info) throws Exception;
 
 
 
