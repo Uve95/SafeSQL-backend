@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.backend.SafeSQL.model.Message;
 import com.backend.SafeSQL.model.User;
 import com.backend.SafeSQL.service.AdminService;
 
@@ -68,16 +66,7 @@ public class AdminController {
 
 		adminService.deleteUser(email);
 
-		return new ResponseEntity<>(new Message("El usuario ha sido eliminado"), HttpStatus.OK);
+		return new ResponseEntity<>("El usuario ha sido eliminado", HttpStatus.OK);
 	}
-
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/{email}")
-	public User getUser(@PathVariable String email) throws Exception {
-		return adminService.getUser(email);
-
-	}
-
-
 
 }

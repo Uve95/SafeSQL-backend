@@ -141,19 +141,6 @@ public class MailService {
 
 	 }
 		
-/*
-		
-    	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setTo(user.getEmail());
-    	
-    	//long aleatorio = Math.round(Math.random()*99999999);
-    	
-    	String ruta = "http://localhost:4200/user/changePassword/"+user.getEmail();
-    	message.setText(""+ruta);
-
-        emailSender.send(message);
-        System.out.println("OK");
-        */
     
 
 
