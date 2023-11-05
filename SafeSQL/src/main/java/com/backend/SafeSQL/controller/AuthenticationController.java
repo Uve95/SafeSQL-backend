@@ -36,10 +36,6 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
     
-    @GetMapping("/hola")
-    public String hola() {
-    	return "hola";
-    }
 
     @PostMapping("/generate-token")
     public ResponseEntity<?> generarToken(@RequestBody JwtRequest jwtRequest) throws Exception {

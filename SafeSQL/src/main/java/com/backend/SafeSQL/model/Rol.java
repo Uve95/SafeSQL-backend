@@ -2,7 +2,6 @@ package com.backend.SafeSQL.model;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,13 +15,13 @@ public class Rol {
 
     @Id
     private Long rolId;
+
     private String rolName;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "rol")
-    private Set<UserRol> userRoles = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "rol")
+    private Set<UserRol> userRoles = new HashSet();
 
-    public Rol(){
-
+    public Rol() {
     }
 
     public Rol(Long rolId, String rolName) {
