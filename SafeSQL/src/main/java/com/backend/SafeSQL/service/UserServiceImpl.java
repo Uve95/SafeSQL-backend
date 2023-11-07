@@ -530,15 +530,22 @@ public class UserServiceImpl implements UserService {
             throw new Exception("No existe el usuario con mail " + info[0]);
         User userAux = userRepository.findByEmail(info[0]);
         userAux.setReport(info[1]);
-        userRepository.save(userAux);
+		userAux.setDate_report(info[2]);      
+		userAux.setDatabases(info[3]);      
+
+		userRepository.save(userAux);
     }
 
-    public String getReport(String email) throws Exception {
+    public String [] getReport(String email) throws Exception {
         if (userRepository.findByEmail(email) == null)
             throw new Exception("No existe el usuario con mail " + email);
         User userAux = userRepository.findByEmail(email);
-        return userAux.getReport();
+        
+        String [] info = {userAux.getReport(), userAux.getDate_report(), userAux.getDatabases()};
+       
+        return info;
     }
+    
     
     public String getInfo(String email) throws Exception {
         if (userRepository.findByEmail(email) == null)

@@ -255,7 +255,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
     @GetMapping("info-report/{email}")
-    public String getReport(@PathVariable("email") String email) throws Exception {
+    public String [] getReport(@PathVariable("email") String email) throws Exception {
         try {
             return userService.getReport(email);
         } catch (Exception e) {
@@ -263,6 +263,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
+    
     
     @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
     @GetMapping("info/{email}")

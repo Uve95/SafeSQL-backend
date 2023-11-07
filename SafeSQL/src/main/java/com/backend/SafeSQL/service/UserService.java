@@ -46,7 +46,7 @@ public interface UserService {
 
     public void setReport(String[] info) throws Exception;
 
-    public String getReport(String info) throws Exception;
+    public String [] getReport(String info) throws Exception;
     
     public String getInfo(String info) throws Exception;
 

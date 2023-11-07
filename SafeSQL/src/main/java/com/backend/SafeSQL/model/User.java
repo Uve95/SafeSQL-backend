@@ -36,6 +36,12 @@ public class User implements UserDetails {
     private String date;
 
     private String report;
+    
+    private String date_reports;
+    
+    private String databases;
+
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     @JsonIgnore
@@ -44,7 +50,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String email, String name, String surname, String password, String token, boolean enable, String information, String report) {
+    public User(String email, String name, String surname, String password, String token, boolean enable, String information, String report, String date_reports, String databases) {
         this.email = email;
         this.name = name;
         this.surname = surname;
@@ -54,6 +60,9 @@ public class User implements UserDetails {
         this.information = information;
         this.date = date;
         this.report = report;
+        this.date_reports = date_reports;
+        this.databases = databases;
+
     }
 
     public String createToken() {
@@ -126,6 +135,22 @@ public class User implements UserDetails {
 
     public void setReport(String report) {
         this.report = this.report + report;
+    }
+    
+    public String getDate_report() {
+        return date_reports;
+    }
+
+    public void setDate_report(String date_reports) {
+        this.date_reports = this.date_reports +";"+ date_reports;
+    }
+    
+    public String getDatabases() {
+        return databases;
+    }
+
+    public void setDatabases(String databases) {
+        this.databases = this.databases +";"+ databases;
     }
 
     public Set<UserRol> getUserRoles() {
