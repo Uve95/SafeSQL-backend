@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
                     System.out.println(resultSet.getString(1));
                 }
                 connected = true;
-            } catch (SQLException e) {
+            } catch (SQLException e) { 
                 e.printStackTrace();
             }
         }
