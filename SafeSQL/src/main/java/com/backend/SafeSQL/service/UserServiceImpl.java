@@ -229,7 +229,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public String[] checklistNetwork(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -237,58 +236,92 @@ public class UserServiceImpl implements UserService {
 		try (Connection connection = DriverManager.getConnection(userAux.getInformation());
 				Statement statement = connection.createStatement()) {
 			array[0] = bd[1];
+
 			if (listchecks[10].equalsIgnoreCase("true")) {
 				String check10 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) >= 1 THEN '1' ELSE '0' END";
-				resultSet = statement.executeQuery(check10);
-				while (resultSet.next()) {
-					array[10] = resultSet.getString(1);
+
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check10)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[10] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[10] = "-1";
 			}
+
 			if (listchecks[11].equalsIgnoreCase("true")) {
 				String check11 = "USE " + bd[1]
 						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.configurations WHERE (name = 'contained database authentication' OR name = 'common criteria compliance enabled') AND value_in_use = 0 ) THEN 0 ELSE 1 END;";
-				resultSet = statement.executeQuery(check11);
-				while (resultSet.next()) {
-					array[11] = resultSet.getString(1);
+
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check11)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+
+							array[11] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[11] = "-1";
 			}
+
 			if (listchecks[12].equalsIgnoreCase("true")) {
 				String check12 = "USE " + bd[1]
 						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.dm_exec_connections WHERE local_net_address = '0.0.0.0' AND local_tcp_port != 1433 ) THEN 1 ELSE 0 END;";
-				resultSet = statement.executeQuery(check12);
-				while (resultSet.next()) {
-					array[12] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check12)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[12] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[12] = "-1";
 			}
+
 			if (listchecks[13].equalsIgnoreCase("true")) {
 				String check13 = "USE " + bd[1]
 						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsEncrypted FROM sys.configurations WHERE name = 'remote access';";
-				resultSet = statement.executeQuery(check13);
-				while (resultSet.next()) {
-					array[13] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check13)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[13] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
+
 				array[13] = "-1";
 			}
+
 			if (listchecks[14].equalsIgnoreCase("true")) {
 				String check14 = "USE " + bd[1]
 						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsAuthenticationRequired FROM sys.configurations WHERE name LIKE 'remote login %';";
-				resultSet = statement.executeQuery(check14);
-				while (resultSet.next()) {
-					array[14] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check14)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[14] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[14] = "-1";
 			}
@@ -299,7 +332,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public String[] checklistPermission(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -311,33 +343,45 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[20].equalsIgnoreCase("true")) {
 				String check20 = "USE master; GRANT VIEW SERVER STATE TO " + user[1] + "; USE " + bd[1]
 						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END FROM fn_my_permissions('guest', 'USER');";
-				resultSet = statement.executeQuery(check20);
-				while (resultSet.next()) {
-					array[20] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check20)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+
+							array[20] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[20] = "-1";
 			}
 			if (listchecks[21].equalsIgnoreCase("true")) {
 				String check21 = "USE " + bd[1]
 						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END FROM sysusers a, syspermissions b WHERE a.uid=b.grantee AND a.name='public'";
-				resultSet = statement.executeQuery(check21);
-				while (resultSet.next()) {
-					array[21] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check21)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[21] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[21] = "-1";
 			}
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 		return array;
 	}
 
 	public String[] checklistPassword(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -348,22 +392,33 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[30].equalsIgnoreCase("true")) {
 				String check30 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN (SELECT count(name) FROM master.dbo.syslogins WHERE password is null) < 30 THEN '0' ELSE '1' END";
-				resultSet = statement.executeQuery(check30);
-				while (resultSet.next()) {
-					array[30] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check30)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[30] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[30] = "-1";
 			}
 			if (listchecks[31].equalsIgnoreCase("true")) {
 				String check31 = "USE " + bd[1]
 						+ "; SELECT CASE count(inicios_sesion.dias_sin_modificar) WHEN '0' THEN '0' ELSE  '1' END FROM (SELECT name, datediff(dd,updatedate,getdate()) AS dias_sin_modificar FROM syslogins) AS inicios_sesion";
-				resultSet = statement.executeQuery(check31);
-				while (resultSet.next()) {
-					array[31] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check31)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+
+							array[31] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[31] = "-1";
 			}
@@ -374,7 +429,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public String[] checklistSession(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -385,26 +439,39 @@ public class UserServiceImpl implements UserService {
 					+ ";DROP TABLE IF EXISTS inicios_fallidos; DROP TABLE IF EXISTS inicios_buenos; DROP TABLE IF EXISTS diccionario;";
 			statement.execute(deleteTables);
 			array[0] = bd[1];
+
 			if (listchecks[40].equalsIgnoreCase("true")) {
 				String check40 = "USE " + bd[1]
 						+ "; SELECT CASE count(datos.name) WHEN '0' THEN '0' ELSE  '1' END FROM (SELECT [name], RemediationCmd = N'ALTER LOGIN ' + QUOTENAME([name]) + ' WITH CHECK_POLICY = ON;' FROM sys.sql_logins AS s WHERE s.is_policy_checked = 0 AND s.is_disabled = 0 AND s.[name] NOT LIKE N'##MS[_]%##') AS datos";
-				resultSet = statement.executeQuery(check40);
-				while (resultSet.next()) {
-					array[40] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check40)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+
+							array[40] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[40] = "-1";
 			}
 			statement.execute(deleteTables);
+
 			if (listchecks[41].equalsIgnoreCase("true")) {
 				String check41 = "USE " + bd[1]
 						+ "; SELECT CASE count(*) WHEN '0' THEN '0' ELSE  '1' END AS inicios_de_sesion FROM syslogins";
-				resultSet = statement.executeQuery(check41);
-				while (resultSet.next()) {
-					array[41] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check41)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[41] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[41] = "-1";
 			}
@@ -412,23 +479,29 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[42].equalsIgnoreCase("true")) {
 				String check42 = "USE " + bd[1]
 						+ "; CREATE TABLE inicios_fallidos(logdate datetime, processinfo nvarchar(10), text nvarchar(200)); INSERT INTO inicios_fallidos exec sp_readerrorlog 0, 1, 'Login failed' CREATE TABLE inicios_buenos(logdate datetime, processinfo nvarchar(10), text nvarchar(200)); INSERT INTO inicios_buenos exec sp_readerrorlog 0, 1, 'Login' SELECT CASE WHEN (SELECT round(info.resultado*100,2) FROM( SELECT ((SELECT cast(count(*)  AS float) AS intentos_f FROM inicios_fallidos WHERE  convert(date,logdate)= convert(date,getdate()))/ (SELECT  cast( CASE count(*) WHEN '0' THEN '1' END as float)  intentos_b FROM inicios_buenos WHERE convert(date,logdate)= convert(date,getdate()))) resultado) AS info) = 0 THEN '0' ELSE '1' END";
-				resultSet = statement.executeQuery(check42);
-				while (resultSet.next()) {
-					array[42] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check42)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[42] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[42] = "-1";
 			}
 			statement.execute(deleteTables);
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 		return array;
 	}
 
 	public String[] checklistMaintenance(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -440,44 +513,67 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[50].equalsIgnoreCase("true")) {
 				String check50 = "ALTER AUTHORIZATION ON DATABASE ::msdb TO " + user[1]
 						+ "; SELECT  CASE count(*) WHEN '0' THEN '1' ELSE '0' END FROM msdb.dbo.sysmaintplan_plans AS s INNER JOIN msdb.dbo.sysmaintplan_subplans AS sp ON sp.plan_id=s.id";
-				resultSet = statement.executeQuery(check50);
-				while (resultSet.next()) {
-					array[50] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check50)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+
+							array[50] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[50] = "-1";
 			}
+
 			if (listchecks[51].equalsIgnoreCase("true")) {
 				String check51 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN MAX(backup_finish_date) >= DATEADD(MONTH, -1, GETDATE()) THEN 0 ELSE 1 END AS 'Estado' FROM msdb.dbo.backupset GROUP BY database_name;";
-				resultSet = statement.executeQuery(check51);
-				while (resultSet.next()) {
-					array[51] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check51)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+
+							array[51] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[51] = "-1";
 			}
 			if (listchecks[52].equalsIgnoreCase("true")) {
 				String check52 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN AVG(avg_fragmentation_in_percent) < 10 THEN 0 ELSE 1 END AS 'Estado de Fragmentación' FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL, NULL);";
-				resultSet = statement.executeQuery(check52);
-				while (resultSet.next()) {
-					array[52] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check52)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[52] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[52] = "-1";
 			}
 			if (listchecks[53].equalsIgnoreCase("true")) {
 				String check53 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN (AVG(cpu_time * 1.0) / MAX(cpu_time)) * 100 < 40 THEN 0 ELSE 1 END AS Resultado FROM sys.dm_exec_requests WHERE session_id > 50;";
-				resultSet = statement.executeQuery(check53);
-				while (resultSet.next()) {
-					array[53] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check53)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[53] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[53] = "-1";
 			}
@@ -488,7 +584,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public String[] checklistData(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -501,11 +596,16 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[60].equalsIgnoreCase("true")) {
 				String check60 = "USE " + bd[1]
 						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); INSERT INTO diccionario VALUES ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE WHEN (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) >= 0 AND (SELECT round(datos_sensibles.numero*100,2) from( SELECT ( (SELECT cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas ON nombre_columnas.column_name like d.nombre) / (SELECT cast(count(*)  as float) numero from sys.all_columns)) numero) as datos_sensibles) < 30 THEN '0' ELSE '1' END";
-				resultSet = statement.executeQuery(check60);
-				while (resultSet.next()) {
-					array[60] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check60)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[60] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[60] = "-1";
 			}
@@ -513,11 +613,16 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[61].equalsIgnoreCase("true")) {
 				String check61 = "USE " + bd[1]
 						+ "; CREATE TABLE diccionario(nombre nvarchar(50)); INSERT INTO diccionario VALUES ('Nombre'),('Apellidos'),('Tel'),('Tlf'), ('Movil'),('Direccion'),('Poblacion'),('Ciudad'),('Pais'),('Postal'),('CP'),('DNI'),('CIF'), ('NIE'),('Pasaporte'),('Identifi'),('Mail'),('Correo'),('Foto'),('Banco'),('Tarjeta'),('Cuenta'), ('Numero'),('IP'),('Name'),('Surname'),('Phone'),('Mobile'),('Cell'),('Celular'),('Address'), ('City'),('Country'),('ZIP'),('Code'),('Birthday'),('Passport'),('Photo'),('Bank'),('Card'), ('Accont'),('Number'),('Error') SELECT CASE round(cast(resultado_cifradas.resultado*100 as float),2) WHEN '0' THEN '0' ELSE '1' END from ( SELECT ( SELECT( SELECT( (SELECT  cast(count(*) as float) as contar_encriptados from diccionario d join (SELECT name from sys.columns where [encryption_type] IS NOT NULL) as columnas_encriptadas on columnas_encriptadas.name like d.nombre)) as columnas_encriptadas) / (SELECT  cast(count(*)  as float) as contar_sensibles from diccionario d join (SELECT column_name from information_schema.columns) as nombre_columnas on nombre_columnas.column_name like d.nombre) as columnas_sensibles) resultado) as resultado_cifradas";
-				resultSet = statement.executeQuery(check61);
-				while (resultSet.next()) {
-					array[61] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check61)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[61] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[61] = "-1";
 			}
@@ -525,12 +630,10 @@ public class UserServiceImpl implements UserService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		resultSet = null;
 		return array;
 	}
 
 	public String[] checklistRol(String[] info) throws Exception {
-		ResultSet resultSet = null;
 		String[] listchecks = info[0].split(",");
 		User userAux = userRepository.findByEmail(info[1]);
 		String[] cadenaInfo = userAux.getInformation().split(";");
@@ -541,22 +644,32 @@ public class UserServiceImpl implements UserService {
 			if (listchecks[70].equalsIgnoreCase("true")) {
 				String check70 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) >= 0 AND (SELECT  round(cast(miembros.rol_miembros*100 as float),2) FROM ( SELECT(( SELECT cast(count(*)  as float) FROM sys.server_principals r INNER JOIN sys.server_role_members m ON r.principal_id = m.role_principal_id INNER JOIN sys.server_principals p ON p.principal_id = m.member_principal_id WHERE r.type = 'R' and r.name = N'sysadmin') /(SELECT cast(count(*)  as float) FROM sys.sysusers)) rol_miembros) AS miembros) < 25 THEN '0' ELSE '1' END;";
-				resultSet = statement.executeQuery(check70);
-				while (resultSet.next()) {
-					array[70] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check70)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[70] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[70] = "-1";
 			}
 			if (listchecks[71].equalsIgnoreCase("true")) {
 				String check71 = "USE " + bd[1]
 						+ "; SELECT CASE WHEN (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datareader') <= 1 AND (SELECT COUNT(*) FROM sys.database_principals AS dp JOIN sys.database_role_members AS drm ON dp.principal_id = drm.member_principal_id JOIN sys.database_principals AS dp_role ON drm.role_principal_id = dp_role.principal_id WHERE dp_role.name = 'db_datawriter') <= 1 THEN 0 ELSE 1 END;";
-				resultSet = statement.executeQuery(check71);
-				while (resultSet.next()) {
-					array[71] = resultSet.getString(1);
+				try (PreparedStatement preparedStatement = connection.prepareStatement(check71)) {
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						while (resultSet.next()) {
+							array[71] = resultSet.getString(1);
+						}
+
+					}
 				}
-				resultSet = null;
+
 			} else {
 				array[71] = "-1";
 			}
