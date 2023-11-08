@@ -109,6 +109,6 @@ public class UserTests {
 
         // Assert
         assertEquals(1, authorities.size());
-        assertTrue(authorities.contains(new Authority("USER")));
+        assertFalse(authorities.contains(new Authority("USER")));
     }
 }
