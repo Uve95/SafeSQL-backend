@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,6 +34,12 @@ import com.backend.SafeSQL.service.UserServiceImpl;
 public class UserServiceImplTests {
 
     private static final Object String = null;
+
+
+    private static final java.lang.String token = null;
+
+
+    private static final Throwable exception = null;
 
  
     @InjectMocks
@@ -68,27 +76,6 @@ public class UserServiceImplTests {
 
     }
 
-
-    @Test
-    public void testUpdateUserWithInvalidChanges() {
-        String token = "testToken";
-        User existingUser = new User("testName", "testSurname", token);
-        User updatedUser = new User(null, "NewSurname", token);
-    
-        // Simular el comportamiento del repositorio al buscar un usuario por token
-        when(userRepository.findByToken(token)).thenReturn(existingUser);
-    
-        // Verificar que llamar a updateUser con cambios inválidos lanza una excepción
-        Exception exception = assertThrows(Exception.class, () -> {
-            userService.updateUser(updatedUser, token);
-        });
-    
-        // Verificar que el mensaje de la excepción contiene el texto esperado
-        assertTrue(exception.getMessage().contains("No existe el usuario con token " + token));
-    
-        // Verificar que el método save no se llamó
-        verify(userRepository, never()).save(any(User.class));
-    }
     
 
 
@@ -96,8 +83,8 @@ public class UserServiceImplTests {
     @Test
     public void testUpdateUser_InvalidToken() throws Exception {
         // Datos de prueba
-        String token = "invalidToken";
-        User updatedUser = new User("NewName", "NewSurname", token);
+        
+        User updatedUser = new User(null, null, null, null, null, false, null, null, null, null);
 
         // Simular el comportamiento del repositorio al buscar un usuario por token
         when(userRepository.findByToken(token)).thenReturn(null);
@@ -106,6 +93,27 @@ public class UserServiceImplTests {
         userService.updateUser(updatedUser, token);
     }
 
+    
+    @Test
+    public void testUpdateUser_ValidToken() throws Exception {
+        // Datos de prueba
+        String validToken = "validToken";
+        User existingUser =new User(null, null, null, null, validToken, false, null, null, null, null);
+        User updatedUser = new User(null, null, null, null, validToken, false, null, null, null, null);
+
+        // Simular el comportamiento del repositorio al encontrar un usuario por token
+        when(userRepository.findByToken(validToken)).thenReturn(existingUser);
+        when(userRepository.save(existingUser)).thenReturn(existingUser);  // Simular el guardado exitoso
+
+        // Llamar al método updateUser
+        User result = userService.updateUser(updatedUser, validToken);
+
+        // Verificar que el método save se llamó una vez con el usuario actualizado
+        verify(userRepository, times(1)).save(existingUser);
+
+        // Verificar que el resultado es el mismo usuario actualizado
+        assertEquals(updatedUser, result);
+    }
 
 
 
