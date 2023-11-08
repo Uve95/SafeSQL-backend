@@ -80,7 +80,7 @@ public class UserServiceImplTests {
         when(userRepository.findByEmail("testToken")).thenReturn(existingUser);
 
     }
- 
+  
     @Test
     public void testSaveUser() throws Exception {
         User user = new User(null, null, null);
