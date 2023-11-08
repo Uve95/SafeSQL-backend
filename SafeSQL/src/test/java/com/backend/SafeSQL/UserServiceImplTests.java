@@ -71,7 +71,7 @@ public class UserServiceImplTests {
 
 
         // Crear un usuario de ejemplo para la prueba
-        User existingUser = new User(null, null, null, null, null, false, null, null, null, null);
+        User existingUser = new User();
         existingUser.setToken("testToken");
         existingUser.setName("John");
         existingUser.setSurname("Doe");
@@ -106,7 +106,7 @@ public class UserServiceImplTests {
     public void testUpdateUser_InvalidToken() throws Exception {
         // Datos de prueba
         
-        User updatedUser = new User(null, null, null, null, null, false, null, null, null, null);
+        User updatedUser = new User();
 
         // Simular el comportamiento del repositorio al buscar un usuario por token
         when(userRepository.findByToken(token)).thenReturn(null);
@@ -120,8 +120,8 @@ public class UserServiceImplTests {
     public void testUpdateUser_ValidToken() throws Exception {
         // Datos de prueba
         String validToken = "validToken";
-        User existingUser =new User(null, null, null, null, validToken, false, null, null, null, null);
-        User updatedUser = new User(null, null, null, null, validToken, false, null, null, null, null);
+        User existingUser =new User();
+        User updatedUser = new User();
 
         // Simular el comportamiento del repositorio al encontrar un usuario por token
         when(userRepository.findByToken(validToken)).thenReturn(existingUser);
