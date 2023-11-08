@@ -35,8 +35,8 @@ public class NumberGeneratorTests {
     @Test
     public void ejecutarTarea_UpdateUsersWithTokens() {
         // Arrange
-        User user1 = new User(null, null, null);
-        User user2 = new User(null, null, null);
+        User user1 = new User();
+        User user2 = new User();
         List<User> users = Arrays.asList(user1, user2);
 
         when(userRepository.findAll()).thenReturn(users);

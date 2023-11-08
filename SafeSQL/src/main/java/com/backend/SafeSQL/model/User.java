@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<UserRol> userRoles = new HashSet();
 
-    public User(String string, String string2, ArrayList arrayList) {
+    public User() {
     }
 
     public User(String email, String name, String surname, String password, String token, boolean enable, String information, String report, String date_reports, String databases) {

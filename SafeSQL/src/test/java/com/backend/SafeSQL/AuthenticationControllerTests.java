@@ -60,7 +60,7 @@ public class AuthenticationControllerTests {
     public void generarToken_ValidCredentials_ReturnsToken() throws Exception {
         // Arrange
         JwtRequest jwtRequest = new JwtRequest("testuser@example.com", "password123");
-        UserDetails userDetails = new User("testuser@example.com", "password123", new ArrayList<>());
+        UserDetails userDetails = new User();
 
         // Utiliza doReturn para evitar el problema con el método que devuelve null
         doReturn(null).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
@@ -103,7 +103,7 @@ public void generarToken_DisabledUser_ThrowsException() throws Exception {
 public void getUserActual_ReturnsCurrentUser() {
     // Arrange
     Principal principal = () -> "testuser@example.com";
-    User expectedUser = new User("testuser@example.com", "password123", new ArrayList<>());
+    User expectedUser = new User();
     when(userDetailsService.loadUserByUsername(principal.getName())).thenReturn(expectedUser);
 
     // Act

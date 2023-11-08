@@ -45,7 +45,7 @@ public class UserRolTests {
     @Test
     public void getUser_ReturnsUser() {
         // Arrange
-        User expectedUser = new User(null, null, null);
+        User expectedUser = new User();
         userRol.setUser(expectedUser);
 
         // Act
@@ -58,7 +58,7 @@ public class UserRolTests {
     @Test
     public void setUser_SetsUser() {
         // Arrange
-        User expectedUser = new User(null, null, null);
+        User expectedUser = new User();
 
         // Act
         userRol.setUser(expectedUser);

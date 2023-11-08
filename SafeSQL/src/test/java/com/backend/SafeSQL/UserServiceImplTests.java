@@ -83,7 +83,7 @@ public class UserServiceImplTests {
   
     @Test
     public void testSaveUser() throws Exception {
-        User user = new User(null, null, null);
+        User user = new User();
         user.setEmail("test@example.com");
 
         // Simular el comportamiento del repositorio al buscar un usuario por email

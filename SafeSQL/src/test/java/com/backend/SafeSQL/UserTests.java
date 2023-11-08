@@ -23,7 +23,7 @@ public class UserTests {
 
     @BeforeEach
     public void setUp() {
-        user = new User(null, null, null);
+        user = new User();
     }
 
     @Test

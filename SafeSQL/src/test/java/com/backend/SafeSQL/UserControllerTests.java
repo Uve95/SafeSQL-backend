@@ -37,7 +37,7 @@ public class UserControllerTests {
     @Test
     void registerUser_ReturnsUser() throws Exception {
         // Arrange
-        User user = new User(null, null, null);
+        User user = new User();
         when(userService.saveUser(any(User.class), anySet())).thenReturn(user);
 
         // Act
@@ -50,7 +50,7 @@ public class UserControllerTests {
     @Test
     void updateUser_ReturnsHttpStatusOK() throws Exception {
         // Arrange
-        User user = new User(null, null, null);
+        User user = new User();
         user.setPassword("password"); // Establece una contraseña no nula
         String token = "exampleToken";
         when(userService.updateUser(any(User.class), eq(token))).thenReturn(user);
@@ -66,7 +66,7 @@ public class UserControllerTests {
     @Test
     void updateUser_HandleEmptyPassword() throws Exception {
         // Arrange
-        User user = new User(null, null, null);
+        User user = new User();
         user.setPassword(""); // Password empty
         String token = "exampleToken";
 
@@ -81,7 +81,7 @@ public class UserControllerTests {
     @Test
     void forgotPassword_Success() {
         // Arrange
-        User user = new User(null, null, null);
+        User user = new User();
 
         // Act and Assert
         assertDoesNotThrow(() -> userController.forgotPassword(user));
@@ -90,7 +90,7 @@ public class UserControllerTests {
     @Test
     void changePassword_Success() {
         // Arrange
-        User user = new User(null, null, null);
+        User user = new User();
 
         // Act and Assert
         assertDoesNotThrow(() -> userController.changePassword(user));
