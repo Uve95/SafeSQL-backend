@@ -53,7 +53,7 @@ public class AdminControllerTests {
     void details_ReturnsUserDetails() throws Exception {
         // Arrange
         String token = "exampleToken";
-        User user = new User();
+        User user = new User(token, token, null);
         when(adminService.details(eq(token))).thenReturn(user);
 
         // Act
@@ -67,7 +67,7 @@ public class AdminControllerTests {
     @Test
     void update_ReturnsHttpStatusOK() throws Exception {
         // Arrange
-        User updatedUser = new User();
+        User updatedUser = new User(null, null, null);
         updatedUser.setPassword("newPassword"); // Password is not empty
         String email = "exampleEmail";
         
@@ -87,7 +87,7 @@ public class AdminControllerTests {
     @Test
     void update_PasswordEmpty_ReturnsHttpStatusOK() throws Exception {
         // Arrange
-        User updatedUser = new User();
+        User updatedUser = new User(null, null, null);
         updatedUser.setPassword(""); // Password is empty
         String email = "exampleEmail";
 
