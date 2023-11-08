@@ -223,7 +223,7 @@ public class UserTests {
         String actualReport = user.getReport();
 
         // Assert
-        assertNotEquals(expectedReport, actualReport);
+        assertNotEquals(expectedReport, actualReport); 
     }
 
     @Test
