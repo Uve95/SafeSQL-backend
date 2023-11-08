@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.backend.SafeSQL.controller.UserController;
@@ -57,6 +58,27 @@ public class UserServiceImplTests {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+    }
+
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        // Crear un mock para UserRepository
+        UserRepository userRepository = mock(UserRepository.class);
+
+        // Crear una instancia de UserServiceImpl
+        UserServiceImpl userService = new UserServiceImpl();
+
+
+        // Crear un usuario de ejemplo para la prueba
+        User existingUser = new User(null, null, null, null, null, false, null, null, null, null);
+        existingUser.setToken("testToken");
+        existingUser.setName("John");
+        existingUser.setSurname("Doe");
+
+        // Configurar el UserRepository mock para devolver el usuario existente cuando se llama a findByToken
+        when(userRepository.findByEmail("testToken")).thenReturn(existingUser);
+
     }
 
     @Test
