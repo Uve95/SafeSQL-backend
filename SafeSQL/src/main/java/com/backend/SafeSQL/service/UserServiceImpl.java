@@ -132,10 +132,9 @@ public class UserServiceImpl implements UserService {
 
 			if (listchecks[1].equalsIgnoreCase("true")) {
 
-				String check1 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN SERVERPROPERTY('IsIntegratedSecurityOnly') = 1 THEN '0' ELSE '1' END AS 'Authentication Mode';";
 
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check1)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ "; SELECT CASE WHEN SERVERPROPERTY('IsIntegratedSecurityOnly') = 1 THEN '0' ELSE '1' END AS 'Authentication Mode';")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -151,9 +150,8 @@ public class UserServiceImpl implements UserService {
 
 			if (listchecks[2].equalsIgnoreCase("true")) {
 
-				String check2 = "USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN 0 THEN '0' ELSE  '1' END FROM sysconfigures WHERE status=0";
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check2)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN 0 THEN '0' ELSE  '1' END FROM sysconfigures WHERE status=0")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -169,9 +167,8 @@ public class UserServiceImpl implements UserService {
 			}
 
 			if (listchecks[3].equalsIgnoreCase("true")) {
-				String check3 = "USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN 0 THEN '0' ELSE  '1' END FROM sysusers a, sysprotects b, master.dbo.syslogins c WHERE a.sid=c.sid AND sysadmin=0 AND a.uid=b.uid AND id=object_id(N'[dbo].[xp_cmdshell]') OR id=object_id(N'[dbo].[sp_sdidebug]') OR id=object_id(N'[dbo].[xp_availablemedia]') OR id=object_id(N'[dbo].[xp_deletemail]') OR id=object_id(N'[dbo].[xp_dirtree]') OR id=object_id(N'[dbo].[xp_dropwebtask]') OR id=object_id(N'[dbo].[xp_dsninfo]') OR id=object_id(N'[dbo].[xp_enumdsn]') OR id=object_id(N'[dbo].[xp_enumerrorlogs]') OR id=object_id(N'[dbo].[xp_enumqueuedtasks]') OR id=object_id(N'[dbo].[xp_eventlog]') OR id=object_id(N'[dbo].[xp_findnextmsg]') OR id=object_id(N'[dbo].[xp_fixeddrives]') OR id=object_id(N'[dbo].[xp_getfiledetails]') OR id=object_id(N'[dbo].[xp_getnetname]') OR id=object_id(N'[dbo].[xp_grantlogin]') OR id=object_id(N'[dbo].[xp_logevent]') OR id=object_id(N'[dbo].[xp_loginconfig]') OR id=object_id(N'[dbo].[xp_logininfo]') OR id=object_id(N'[dbo].[xp_makewebtask]') OR id=object_id(N'[dbo].[xp_msver]') OR id=object_id(N'[dbo].[xp_regread]') OR id=object_id(N'[dbo].[xp_perfend]') OR id=object_id(N'[dbo].[xp_perfmonitor]') OR id=object_id(N'[dbo].[xp_perfsample]') OR id=object_id(N'[dbo].[xp_perfstart]') OR id=object_id(N'[dbo].[xp_readerrorlog]') OR id=object_id(N'[dbo].[xp_readmail]') OR id=object_id(N'[dbo].[xp_revokelogin]') OR id=object_id(N'[dbo].[xp_runwebtask]') OR id=object_id(N'[dbo].[xp_schedulersignal]') OR id=object_id(N'[dbo].[xp_sendmail]') OR id=object_id(N'[dbo].[xp_servicecontrol]') OR id=object_id(N'[dbo].[xp_snmp_getstate]') OR id=object_id(N'[dbo].[xp_snmp_raisetrap]') OR id=object_id(N'[dbo].[xp_sprintf]') OR id=object_id(N'[dbo].[xp_sqlinventory]') OR id=object_id(N'[dbo].[xp_sqlregister]') OR id=object_id(N'[dbo].[xp_sqltrace]') OR id=object_id(N'[dbo].[xp_sscanf]') OR id=object_id(N'[dbo].[xp_startmail]') OR id=object_id(N'[dbo].[xp_stopmail]') OR id=object_id(N'[dbo].[xp_subdirs]') OR id=object_id(N'[dbo].[xp_unc_to_drive]') OR id=object_id(N'[dbo].[xp_dirtree]')";
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check3)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN 0 THEN '0' ELSE  '1' END FROM sysusers a, sysprotects b, master.dbo.syslogins c WHERE a.sid=c.sid AND sysadmin=0 AND a.uid=b.uid AND id=object_id(N'[dbo].[xp_cmdshell]') OR id=object_id(N'[dbo].[sp_sdidebug]') OR id=object_id(N'[dbo].[xp_availablemedia]') OR id=object_id(N'[dbo].[xp_deletemail]') OR id=object_id(N'[dbo].[xp_dirtree]') OR id=object_id(N'[dbo].[xp_dropwebtask]') OR id=object_id(N'[dbo].[xp_dsninfo]') OR id=object_id(N'[dbo].[xp_enumdsn]') OR id=object_id(N'[dbo].[xp_enumerrorlogs]') OR id=object_id(N'[dbo].[xp_enumqueuedtasks]') OR id=object_id(N'[dbo].[xp_eventlog]') OR id=object_id(N'[dbo].[xp_findnextmsg]') OR id=object_id(N'[dbo].[xp_fixeddrives]') OR id=object_id(N'[dbo].[xp_getfiledetails]') OR id=object_id(N'[dbo].[xp_getnetname]') OR id=object_id(N'[dbo].[xp_grantlogin]') OR id=object_id(N'[dbo].[xp_logevent]') OR id=object_id(N'[dbo].[xp_loginconfig]') OR id=object_id(N'[dbo].[xp_logininfo]') OR id=object_id(N'[dbo].[xp_makewebtask]') OR id=object_id(N'[dbo].[xp_msver]') OR id=object_id(N'[dbo].[xp_regread]') OR id=object_id(N'[dbo].[xp_perfend]') OR id=object_id(N'[dbo].[xp_perfmonitor]') OR id=object_id(N'[dbo].[xp_perfsample]') OR id=object_id(N'[dbo].[xp_perfstart]') OR id=object_id(N'[dbo].[xp_readerrorlog]') OR id=object_id(N'[dbo].[xp_readmail]') OR id=object_id(N'[dbo].[xp_revokelogin]') OR id=object_id(N'[dbo].[xp_runwebtask]') OR id=object_id(N'[dbo].[xp_schedulersignal]') OR id=object_id(N'[dbo].[xp_sendmail]') OR id=object_id(N'[dbo].[xp_servicecontrol]') OR id=object_id(N'[dbo].[xp_snmp_getstate]') OR id=object_id(N'[dbo].[xp_snmp_raisetrap]') OR id=object_id(N'[dbo].[xp_sprintf]') OR id=object_id(N'[dbo].[xp_sqlinventory]') OR id=object_id(N'[dbo].[xp_sqlregister]') OR id=object_id(N'[dbo].[xp_sqltrace]') OR id=object_id(N'[dbo].[xp_sscanf]') OR id=object_id(N'[dbo].[xp_startmail]') OR id=object_id(N'[dbo].[xp_stopmail]') OR id=object_id(N'[dbo].[xp_subdirs]') OR id=object_id(N'[dbo].[xp_unc_to_drive]') OR id=object_id(N'[dbo].[xp_dirtree]')")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -186,9 +183,8 @@ public class UserServiceImpl implements UserService {
 			}
 
 			if (listchecks[4].equalsIgnoreCase("true")) {
-				String check4 = "USE " + bd[1]
-						+ "; SELECT CASE count(*) WHEN 0 THEN '1' ELSE  '0' END FROM sys.server_audits WHERE is_state_enabled = 1";
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check4)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ "; SELECT CASE count(*) WHEN 0 THEN '1' ELSE  '0' END FROM sys.server_audits WHERE is_state_enabled = 1")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -204,9 +200,8 @@ public class UserServiceImpl implements UserService {
 
 			if (listchecks[5].equalsIgnoreCase("true")) {
 
-				String check5 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN @@VERSION LIKE '%2022%' THEN '0' ELSE '1' END AS 'Version_Check';";
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check5)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ "; SELECT CASE WHEN @@VERSION LIKE '%2022%' THEN '0' ELSE '1' END AS 'Version_Check';")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -238,10 +233,9 @@ public class UserServiceImpl implements UserService {
 			array[0] = bd[1];
 
 			if (listchecks[10].equalsIgnoreCase("true")) {
-				String check10 = "USE " + bd[1]
-						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) >= 1 THEN '1' ELSE '0' END";
 
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check10)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ "; SELECT CASE WHEN (SELECT  count(distinct (encrypt_option)) FROM sys.dm_exec_connections) >= 1 THEN '1' ELSE '0' END")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -256,10 +250,9 @@ public class UserServiceImpl implements UserService {
 			}
 
 			if (listchecks[11].equalsIgnoreCase("true")) {
-				String check11 = "USE " + bd[1]
-						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.configurations WHERE (name = 'contained database authentication' OR name = 'common criteria compliance enabled') AND value_in_use = 0 ) THEN 0 ELSE 1 END;";
 
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check11)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.configurations WHERE (name = 'contained database authentication' OR name = 'common criteria compliance enabled') AND value_in_use = 0 ) THEN 0 ELSE 1 END;")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -275,9 +268,8 @@ public class UserServiceImpl implements UserService {
 			}
 
 			if (listchecks[12].equalsIgnoreCase("true")) {
-				String check12 = "USE " + bd[1]
-						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.dm_exec_connections WHERE local_net_address = '0.0.0.0' AND local_tcp_port != 1433 ) THEN 1 ELSE 0 END;";
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check12)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ ";SELECT CASE WHEN EXISTS ( SELECT 1 FROM sys.dm_exec_connections WHERE local_net_address = '0.0.0.0' AND local_tcp_port != 1433 ) THEN 1 ELSE 0 END;")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
@@ -292,9 +284,8 @@ public class UserServiceImpl implements UserService {
 			}
 
 			if (listchecks[13].equalsIgnoreCase("true")) {
-				String check13 = "USE " + bd[1]
-						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsEncrypted FROM sys.configurations WHERE name = 'remote access';";
-				try (PreparedStatement preparedStatement = connection.prepareStatement(check13)) {
+				try (PreparedStatement preparedStatement = connection.prepareStatement("USE " + bd[1]
+						+ ";SELECT CASE WHEN value_in_use = 1 THEN 0 ELSE 1 END AS IsEncrypted FROM sys.configurations WHERE name = 'remote access';")) {
 
 					try (ResultSet resultSet = preparedStatement.executeQuery()) {
 						while (resultSet.next()) {
