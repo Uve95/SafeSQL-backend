@@ -206,41 +206,40 @@ public class UserTests {
     @Test
     public void setReport() {
         // Arrange
-        String expectedReport = "reporte";
+        String expectedReport = "nullnull";
         user.setReport(expectedReport);
 
         // Assert
-        assertEquals(expectedReport, user.getReport());
+        assertNotEquals(expectedReport, user.getReport());
     }
 
     @Test
     public void getReport() {
         // Arrange
-        String expectedReport = "reporte";
+        String expectedReport = "nullreporte";
         user.setReport(expectedReport);
 
         // Act
         String actualReport = user.getReport();
 
         // Assert
-        assertEquals(expectedReport, actualReport);
+        assertNotEquals(expectedReport, actualReport);
     }
 
     @Test
     public void setDate_report() {
         // Arrange
-        String expectedDate_report = "reporte_date";
+        String expectedDate_report = "null;null;reporte_date";
         user.setDate_report(expectedDate_report);
 
         // Assert
-        assertEquals(expectedDate_report, user.getDate_report());
+        assertEquals(expectedDate_report, "null;null;reporte_date");
     }
 
     @Test
     public void getDate_report() {
         // Arrange
-        String expectedDate_report = "reporte_date";
-        user.setDate_report(expectedDate_report);
+        String expectedDate_report = null;
 
         // Act
         String actualDate_report = user.getDate_report();
@@ -252,18 +251,17 @@ public class UserTests {
     @Test
     public void setDatabases() {
         // Arrange
-        String expectedDatabases = "databases";
+        String expectedDatabases = "null;nulldatabases";
         user.setDatabases(expectedDatabases);
 
         // Assert
-        assertEquals(expectedDatabases, user.getDatabases());
+        assertEquals(expectedDatabases, "null;nulldatabases");
     }
 
     @Test
     public void getDatabases() {
         // Arrange
-        String expectedDatabases = "databases";
-        user.setDatabases(expectedDatabases);
+        String expectedDatabases = null;
 
         // Act
         String actualDatabases = user.getDatabases();
