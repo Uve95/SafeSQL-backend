@@ -54,6 +54,6 @@ public class AdminController {
     @DeleteMapping("delete/{email}")
     public ResponseEntity<?> delete(@PathVariable String email) throws Exception {
         adminService.deleteUser(email);
-        return new ResponseEntity("El usuario ha sido eliminado", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
